@@ -68,6 +68,7 @@ namespace Agriculture.Persistence
             // ── Services ─────────────────────────────────────────────────────
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IPlantSpecicesService, PlantSpecicesService>();
+            services.AddScoped<ICategoryService, CategoryService>();
 
             return services;
         }
