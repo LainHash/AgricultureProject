@@ -21,7 +21,6 @@
 	<ItemGroup>
 	  <Folder Include="Behaviores\" />
 	  <Folder Include="Common\" />
-	  <Folder Include="Features\" />
 	</ItemGroup>
 
 </Project>

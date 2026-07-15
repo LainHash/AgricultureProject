@@ -5,7 +5,7 @@ namespace Agriculture.Persistence.Specifications
 {
     internal static class SpecificationEvaluator
     {
-        public static IQueryable<T> GetQuery<T>(IQueryable<T> query, ISpecification<T> spec, bool applyPaging = true) where T : class
+        public static IQueryable<TEntity> GetQuery<TEntity>(IQueryable<TEntity> query, ISpecification<TEntity> spec, bool applyPaging = true) where TEntity : class
         {
             if (spec.IgnoreQueryFilters)
             {

@@ -2,7 +2,7 @@
 
 namespace Agriculture.Domain.Specifications
 {
-    public abstract class BaseSpecification<TEntity> where TEntity : class
+    public abstract class BaseSpecification<TEntity> : ISpecification<TEntity> where TEntity : class
     {
         public Expression<Func<TEntity, bool>>? Criteria { get; protected set; }
 
