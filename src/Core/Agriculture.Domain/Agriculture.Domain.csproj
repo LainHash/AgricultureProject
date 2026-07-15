@@ -8,6 +8,10 @@
 
   <ItemGroup>
     <Folder Include="Entites\Catalog\" />
+    <Folder Include="Abstraction\" />
+    <Folder Include="Enums\" />
+    <Folder Include="Specifications\" />
+    <Folder Include="Repositories\" />
   </ItemGroup>
 
 </Project>
