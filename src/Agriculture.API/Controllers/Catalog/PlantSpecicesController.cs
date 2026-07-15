@@ -4,7 +4,6 @@ using Agriculture.Application.Features.Catalog.PlantSpecicess.Queries.GetById;
 using Agriculture.Contract.DTOs.Catalog.PlantSpecices;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Agriculture.API.Controllers.Catalog
 {

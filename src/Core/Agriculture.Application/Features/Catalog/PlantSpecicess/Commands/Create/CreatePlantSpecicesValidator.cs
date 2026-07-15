@@ -2,7 +2,7 @@ using FluentValidation;
 
 namespace Agriculture.Application.Features.Catalog.PlantSpecicess.Commands.Create
 {
-    internal class CreatePlantSpecicesValidator
+    public class CreatePlantSpecicesValidator
         : AbstractValidator<CreatePlantSpecicesCommand>
     {
         public CreatePlantSpecicesValidator()
