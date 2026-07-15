@@ -18,6 +18,7 @@ namespace Agriculture.Persistence.Seeders
         public async Task SeedAllAsync()
         {
             await SeedAsync<PlantSpecicesSeeder>(_context);
+            await SeedAsync<CategorySeeder>(_context);
         }
 
         private async Task SeedAsync<TSeeder>(AgricultureDbContext context) where TSeeder : IDataSeeder
