@@ -9,6 +9,7 @@ namespace Agriculture.Persistence.Mapping.Catalog
         public PlantSpecicesMapping()
         {
             CreateMap<PlantSpecices, PlantSpecicesResponse>();
+            CreateMap<CreatePlantSpecicesRequest, PlantSpecices>();
         }
     }
 }

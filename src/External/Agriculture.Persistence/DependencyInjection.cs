@@ -1,8 +1,10 @@
-﻿using Agriculture.Application.Services.Catalog;
+﻿using Agriculture.Application.Services;
+using Agriculture.Application.Services.Catalog;
 using Agriculture.Domain.Repositories;
 using Agriculture.Persistence.Contexts;
 using Agriculture.Persistence.Repositories;
 using Agriculture.Persistence.Repositories.Catalog;
+using Agriculture.Persistence.Services;
 using Agriculture.Persistence.Services.Catalog;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -50,6 +52,7 @@ namespace Agriculture.Persistence
             services.AddAutoMapper(cfg => cfg.AddMaps(typeof(DependencyInjection).Assembly));
 
             // ── Services ─────────────────────────────────────────────────────
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IPlantSpecicesService, PlantSpecicesService>();
 
             return services;
