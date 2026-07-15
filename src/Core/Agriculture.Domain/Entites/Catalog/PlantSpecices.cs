@@ -2,7 +2,7 @@
 
 namespace Agriculture.Domain.Entites.Catalog
 {
-    public class PlantSpecices : SoftDeletableEntity
+    public partial class PlantSpecices : SoftDeletableEntity
     {
         public string Name { get; private set; } = string.Empty;
         public string ScientificName { get; private set; } = string.Empty;
@@ -13,5 +13,10 @@ namespace Agriculture.Domain.Entites.Catalog
         public decimal SunlightLevel { get; private set; }
         public decimal TemperatureMin { get; private set; }
         public decimal TemperatureMax { get; private set; }
+    }
+
+    public partial class PlantSpecices
+    {
+        public PlantSpecices() { }
     }
 }

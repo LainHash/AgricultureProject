@@ -11,7 +11,7 @@ namespace Agriculture.Persistence.Contexts
         {
         }
 
-        DbSet<PlantSpecices> PlantSpecices { get; set; } = null!;
+        public DbSet<PlantSpecices> PlantSpecices { get; set; } = null!;
 
         // ── Model building ──────────────────────────────────────────────────
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -4,6 +4,7 @@ using Agriculture.Domain.Repositories;
 using Agriculture.Persistence.Contexts;
 using Agriculture.Persistence.Repositories;
 using Agriculture.Persistence.Repositories.Catalog;
+using Agriculture.Persistence.Seeders;
 using Agriculture.Persistence.Services;
 using Agriculture.Persistence.Services.Catalog;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,19 @@ namespace Agriculture.Persistence
                     sqlOptions => sqlOptions.MigrationsAssembly(
                         typeof(AgricultureDbContext).Assembly.FullName)));
 
+            // ── Seeders ──────────────────────────────────────────────────────
+
+            // Orchestrator seeder
+            services.AddScoped<DataSeeder>();
+
+            // Auto-register all IDataSeeder implementations
+            var seederTypes = typeof(DependencyInjection).Assembly.GetTypes()
+                .Where(t => typeof(IDataSeeder).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
+
+            foreach (var type in seederTypes)
+            {
+                services.AddScoped(type);
+            }
 
             // ── Repositories ─────────────────────────────────────────────────
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
@@ -65,6 +79,9 @@ namespace Agriculture.Persistence
 
             var context = sp.GetRequiredService<AgricultureDbContext>();
             await context.Database.MigrateAsync();
+
+            var seeder = sp.GetRequiredService<DataSeeder>();
+            await seeder.SeedAllAsync();
         }
     }
 }
