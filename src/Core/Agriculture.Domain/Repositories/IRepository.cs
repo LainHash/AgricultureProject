@@ -1,0 +1,13 @@
+﻿using Agriculture.Domain.Specifications;
+
+namespace Agriculture.Domain.Repositories
+{
+    public interface IRepository<TEntity> where TEntity : class
+    {
+        Task<IEnumerable<TEntity>> ToListAsync(CancellationToken cancellationToken = default);
+        Task<IEnumerable<TEntity>> ToListAsync(ISpecification<TEntity> specification, CancellationToken cancellationToken = default);
+        Task<TEntity?> FindAsync(ISpecification<TEntity> specification, CancellationToken cancellationToken = default);
+        void Add(TEntity entity);
+        void Update(TEntity entity);
+    }
+}
