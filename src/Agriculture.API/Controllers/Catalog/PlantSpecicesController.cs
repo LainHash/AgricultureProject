@@ -1,7 +1,10 @@
-﻿using Agriculture.Application.Features.Catalog.PlantSpecicess.Queries.GetAll;
+﻿using Agriculture.Application.Features.Catalog.PlantSpecicess.Commands.Create;
+using Agriculture.Application.Features.Catalog.PlantSpecicess.Queries.GetAll;
 using Agriculture.Application.Features.Catalog.PlantSpecicess.Queries.GetById;
+using Agriculture.Contract.DTOs.Catalog.PlantSpecices;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Agriculture.API.Controllers.Catalog
 {
@@ -32,6 +35,16 @@ namespace Agriculture.API.Controllers.Catalog
         {
             var query = new GetPlantSpecicesByIdQuery(id);
             var result = await _mediator.Send(query, cancellationToken);
+            return StatusCode(result.StatusCode, result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(
+            [FromBody] CreatePlantSpecicesRequest body,
+            CancellationToken cancellationToken)
+        {
+            var command = new CreatePlantSpecicesCommand(body);
+            var result = await _mediator.Send(command, cancellationToken);
             return StatusCode(result.StatusCode, result);
         }
     }

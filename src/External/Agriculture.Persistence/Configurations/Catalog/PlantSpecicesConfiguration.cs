@@ -42,10 +42,12 @@ namespace Agriculture.Persistence.Configurations.Catalog
                 .IsRequired()
                .HasColumnType("decimal(4,4)");
 
+            //Đơn vị riêng 0 - 1000
             builder.Property(x => x.SunlightLevel)
                 .IsRequired()
                 .HasColumnType("decimal(4,2)");
 
+            //Đơn vị độ C
             builder.Property(x => x.TemperatureMin)
                 .IsRequired()
                 .HasColumnType("decimal(3,2)");

@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Agriculture.Application.Behaviores;
+using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Agriculture.Application
 {
@@ -9,11 +11,11 @@ namespace Agriculture.Application
             services.AddMediatR(config =>
             {
                 config.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly);
-                //config.AddOpenBehavior(typeof(ValidationBehavior<,>));
+                config.AddOpenBehavior(typeof(ValidationBehavior<,>));
                 //config.AddOpenBehavior(typeof(AuditLogBehavior<,>));
             });
 
-            //services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly);
+            services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly);
 
             // AuditContext: Scoped — sống trong 1 request, chia sẻ giữa Behavior và DbContext
             //services.AddScoped<AuditContext>();
