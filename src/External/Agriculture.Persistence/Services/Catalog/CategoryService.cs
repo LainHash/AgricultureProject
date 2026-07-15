@@ -2,6 +2,7 @@
 using Agriculture.Application.Features.Catalog.Categories.Queries.GetById;
 using Agriculture.Application.Models.Messages;
 using Agriculture.Application.Models.Results;
+using Agriculture.Application.Services;
 using Agriculture.Application.Services.Catalog;
 using Agriculture.Contract.DTOs.Catalog.Categories;
 using Agriculture.Domain.Entites.Catalog;
@@ -15,11 +16,16 @@ namespace Agriculture.Persistence.Services.Catalog
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CategoryService(ICategoryRepository categoryRepository, IMapper mapper)
+        public CategoryService(
+            ICategoryRepository categoryRepository,
+            IMapper mapper,
+            IUnitOfWork unitOfWork)
         {
             _categoryRepository = categoryRepository;
             _mapper = mapper;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<Result<IEnumerable<CategoryResponse>>> GetAllAsync(GetAllCategoriesSpecification specification, CancellationToken cancellationToken)
@@ -40,7 +46,7 @@ namespace Agriculture.Persistence.Services.Catalog
         public async Task<Result<CategoryResponse>> GetByIdAsync(GetCategoryByIdSpecification specification, CancellationToken cancellationToken)
         {
             var category = await _categoryRepository.FindAsync(specification, cancellationToken);
-            if(category is null)
+            if (category is null)
             {
                 return Result<CategoryResponse>
                     .Fail(Error<Category>.NotFound, HttpStatusCode.NotFound);
@@ -49,6 +55,20 @@ namespace Agriculture.Persistence.Services.Catalog
             var response = _mapper.Map<CategoryResponse>(category);
             return Result<CategoryResponse>
                 .Succeed(response, Success<Category>.Retrieved);
+        }
+
+        public async Task<Result<CategoryResponse>> CreateAsync(CreateCategoryRequest request, CancellationToken cancellationToken)
+        {
+            var category = new Category();
+            _mapper.Map(request, category);
+
+            _categoryRepository.Add(category);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+
+            var response = _mapper.Map<CategoryResponse>(category);
+            return Result<CategoryResponse>
+                .Succeed(response, Success<Category>.Created, HttpStatusCode.Created);
         }
     }
 }
