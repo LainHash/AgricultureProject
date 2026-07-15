@@ -1,4 +1,5 @@
 ﻿using Agriculture.Application.Features.Catalog.PlantSpecicess.Queries.GetAll;
+using Agriculture.Application.Features.Catalog.PlantSpecicess.Queries.GetById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +21,16 @@ namespace Agriculture.API.Controllers.Catalog
             [FromQuery] GetAllPlantSpecicesQuery query,
             CancellationToken cancellationToken)
         {
+            var result = await _mediator.Send(query, cancellationToken);
+            return StatusCode(result.StatusCode, result);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetOne(
+            [FromRoute] Guid id,
+            CancellationToken cancellationToken)
+        {
+            var query = new GetPlantSpecicesByIdQuery(id);
             var result = await _mediator.Send(query, cancellationToken);
             return StatusCode(result.StatusCode, result);
         }
