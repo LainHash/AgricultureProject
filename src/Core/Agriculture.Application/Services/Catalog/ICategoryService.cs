@@ -1,4 +1,5 @@
-﻿using Agriculture.Application.Features.Catalog.Categories.Queries;
+﻿using Agriculture.Application.Features.Catalog.Categories.Queries.GetAll;
+using Agriculture.Application.Features.Catalog.Categories.Queries.GetById;
 using Agriculture.Application.Models.Results;
 using Agriculture.Contract.DTOs.Catalog.Categories;
 
@@ -8,6 +9,10 @@ namespace Agriculture.Application.Services.Catalog
     {
         Task<Result<IEnumerable<CategoryResponse>>> GetAllAsync(
             GetAllCategoriesSpecification specification,
+            CancellationToken cancellationToken);
+
+        Task<Result<CategoryResponse>> GetByIdAsync(
+            GetCategoryByIdSpecification specification,
             CancellationToken cancellationToken);
     }
 }

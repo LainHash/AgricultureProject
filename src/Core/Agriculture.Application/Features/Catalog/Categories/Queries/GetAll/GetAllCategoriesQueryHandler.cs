@@ -3,7 +3,7 @@ using Agriculture.Application.Services.Catalog;
 using Agriculture.Contract.DTOs.Catalog.Categories;
 using MediatR;
 
-namespace Agriculture.Application.Features.Catalog.Categories.Queries
+namespace Agriculture.Application.Features.Catalog.Categories.Queries.GetAll
 {
     internal class GetAllCategoriesQueryHandler
         : IRequestHandler<GetAllCategoriesQuery, Result<IEnumerable<CategoryResponse>>>

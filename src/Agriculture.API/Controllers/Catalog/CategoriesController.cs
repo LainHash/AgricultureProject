@@ -1,4 +1,4 @@
-﻿using Agriculture.Application.Features.Catalog.Categories.Queries;
+﻿using Agriculture.Application.Features.Catalog.Categories.Queries.GetAll;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
