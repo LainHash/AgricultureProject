@@ -28,6 +28,12 @@ namespace Agriculture.Persistence.Services.Catalog
         {
             var specices = await _plantSpecicesRepository.ToListAsync(specification, cancellationToken);
 
+            if(specices.Count() == 0)
+            {
+                return Result<IEnumerable<PlantSpecicesResponse>>
+                    .Fail(Error<PlantSpecices>.EmptyList);
+            }
+
             var response = _mapper.Map<IEnumerable<PlantSpecicesResponse>>(specices);
             return Result<IEnumerable<PlantSpecicesResponse>>
                 .Succeed(response, Success<PlantSpecices>.Retrieved);

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Agriculture.Application.Models.Messages
+﻿namespace Agriculture.Application.Models.Messages
 {
     public static class Error<TEntity> where TEntity : class
     {
+        public static string EmptyList = $"{typeof(TEntity).Name} list empty.";
+
         public static string NotFound = $"{typeof(TEntity).Name} not found.";
 
         public static string NotYetDeleted = $"{typeof(TEntity).Name} not yet deleted.";
