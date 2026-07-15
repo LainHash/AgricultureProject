@@ -1,5 +1,7 @@
-﻿using Agriculture.Application.Features.Catalog.Categories.Queries.GetAll;
+﻿using Agriculture.Application.Features.Catalog.Categories.Commands.Create;
+using Agriculture.Application.Features.Catalog.Categories.Queries.GetAll;
 using Agriculture.Application.Features.Catalog.Categories.Queries.GetById;
+using Agriculture.Contract.DTOs.Catalog.Categories;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,6 +34,16 @@ namespace Agriculture.API.Controllers.Catalog
         {
             var query = new GetCategoryByIdQuery(id);
             var result = await _mediator.Send(query, cancellationToken);
+            return StatusCode(result.StatusCode, result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(
+            [FromBody] CreateCategoryRequest body,
+            CancellationToken cancellationToken)
+        {
+            var command = new CreateCategoryCommand(body);
+            var result = await _mediator.Send(command, cancellationToken);
             return StatusCode(result.StatusCode, result);
         }
     }
