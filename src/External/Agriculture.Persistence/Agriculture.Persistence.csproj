@@ -37,6 +37,12 @@
 
 	<ItemGroup>
 		<Folder Include="Configurations\" />
+		<Folder Include="Data\" />
+		<Folder Include="Migrations\" />
+		<Folder Include="Repositories\" />
+		<Folder Include="Seeders\" />
+		<Folder Include="Services\" />
+		<Folder Include="Specifications\" />
 	</ItemGroup>
 
 </Project>

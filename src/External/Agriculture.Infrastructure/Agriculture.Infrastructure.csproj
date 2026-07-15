@@ -23,12 +23,6 @@
 
 	<ItemGroup>
 	  <Folder Include="Authentication\" />
-	  <Folder Include="Contexts\" />
-	  <Folder Include="Data\" />
-	  <Folder Include="Migrations\" />
-	  <Folder Include="Specifications\" />
-	  <Folder Include="Seeders\" />
-	  <Folder Include="Repositories\" />
 	  <Folder Include="Services\" />
 	</ItemGroup>
 
