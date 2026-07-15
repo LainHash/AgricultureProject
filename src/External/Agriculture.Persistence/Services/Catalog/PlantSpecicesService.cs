@@ -1,4 +1,5 @@
 ﻿using Agriculture.Application.Features.Catalog.PlantSpecicess.Queries.GetAll;
+using Agriculture.Application.Features.Catalog.PlantSpecicess.Queries.GetById;
 using Agriculture.Application.Models.Messages;
 using Agriculture.Application.Models.Results;
 using Agriculture.Application.Services.Catalog;
@@ -6,6 +7,7 @@ using Agriculture.Contract.DTOs.Catalog.PlantSpecices;
 using Agriculture.Domain.Entites.Catalog;
 using Agriculture.Domain.Repositories.Catalog;
 using AutoMapper;
+using System.Net;
 
 namespace Agriculture.Persistence.Services.Catalog
 {
@@ -27,8 +29,7 @@ namespace Agriculture.Persistence.Services.Catalog
             CancellationToken cancellationToken)
         {
             var specices = await _plantSpecicesRepository.ToListAsync(specification, cancellationToken);
-
-            if(specices.Count() == 0)
+            if(specices.Any())
             {
                 return Result<IEnumerable<PlantSpecicesResponse>>
                     .Fail(Error<PlantSpecices>.EmptyList);
@@ -36,6 +37,20 @@ namespace Agriculture.Persistence.Services.Catalog
 
             var response = _mapper.Map<IEnumerable<PlantSpecicesResponse>>(specices);
             return Result<IEnumerable<PlantSpecicesResponse>>
+                .Succeed(response, Success<PlantSpecices>.Retrieved);
+        }
+
+        public async Task<Result<PlantSpecicesResponse>> GetByIdAsync(GetPlantSpecicesByIdSpecification specification, CancellationToken cancellationToken)
+        {
+            var specices = await _plantSpecicesRepository.FindAsync(specification, cancellationToken);
+            if(specices is null)
+            {
+                return Result<PlantSpecicesResponse>
+                    .Fail(Error<PlantSpecices>.NotFound, HttpStatusCode.NotFound);
+            }
+
+            var response = _mapper.Map<PlantSpecicesResponse>(specices);
+            return Result<PlantSpecicesResponse>
                 .Succeed(response, Success<PlantSpecices>.Retrieved);
         }
     }
