@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Agriculture.Domain.Entites.Catalog;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 namespace Agriculture.Persistence.Contexts
@@ -9,6 +10,8 @@ namespace Agriculture.Persistence.Contexts
             : base(options)
         {
         }
+
+        DbSet<PlantSpecices> PlantSpecices { get; set; } = null!;
 
         // ── Model building ──────────────────────────────────────────────────
         protected override void OnModelCreating(ModelBuilder modelBuilder)
