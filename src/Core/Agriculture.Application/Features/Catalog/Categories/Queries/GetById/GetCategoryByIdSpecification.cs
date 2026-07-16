@@ -9,6 +9,8 @@ namespace Agriculture.Application.Features.Catalog.Categories.Queries.GetById
         public GetCategoryByIdSpecification(GetCategoryByIdQuery query)
         {
             Criteria = c => c.PublicId == query.Id;
+
+            EnableSoftDeleteFilter();
         }
     }
 }

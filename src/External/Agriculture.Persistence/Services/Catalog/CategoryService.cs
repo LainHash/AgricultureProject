@@ -29,7 +29,9 @@ namespace Agriculture.Persistence.Services.Catalog
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Result<IEnumerable<CategoryResponse>>> GetAllAsync(GetAllCategoriesSpecification specification, CancellationToken cancellationToken)
+        public async Task<Result<IEnumerable<CategoryResponse>>> GetAllAsync(
+            GetAllCategoriesSpecification specification,
+            CancellationToken cancellationToken)
         {
             var categories = await _categoryRepository.ToListAsync(specification, cancellationToken);
             if (!categories.Any())
@@ -44,7 +46,9 @@ namespace Agriculture.Persistence.Services.Catalog
 
         }
 
-        public async Task<Result<CategoryResponse>> GetByIdAsync(GetCategoryByIdSpecification specification, CancellationToken cancellationToken)
+        public async Task<Result<CategoryResponse>> GetByIdAsync(
+            GetCategoryByIdSpecification specification,
+            CancellationToken cancellationToken)
         {
             var category = await _categoryRepository.FindAsync(specification, cancellationToken);
             if (category is null)
@@ -58,7 +62,9 @@ namespace Agriculture.Persistence.Services.Catalog
                 .Succeed(response, Success<Category>.Retrieved);
         }
 
-        public async Task<Result<CategoryResponse>> CreateAsync(CreateCategoryRequest request, CancellationToken cancellationToken)
+        public async Task<Result<CategoryResponse>> CreateAsync(
+            CreateCategoryRequest request,
+            CancellationToken cancellationToken)
         {
             var category = _mapper.Map<Category>(request);
             _categoryRepository.Add(category);
@@ -70,7 +76,9 @@ namespace Agriculture.Persistence.Services.Catalog
                 .Succeed(response, Success<Category>.Created, HttpStatusCode.Created);
         }
 
-        public async Task<Result<CategoryResponse>> UpdateAsync(UpdateCategorySpecification specification, CancellationToken cancellationToken)
+        public async Task<Result<CategoryResponse>> UpdateAsync(
+            UpdateCategorySpecification specification,
+            CancellationToken cancellationToken)
         {
             var category = await _categoryRepository.FindAsync(specification, cancellationToken);
             if (category is null)

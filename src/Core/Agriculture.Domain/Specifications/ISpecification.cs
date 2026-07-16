@@ -1,4 +1,4 @@
-﻿using System.Linq.Expressions;
+using System.Linq.Expressions;
 
 namespace Agriculture.Domain.Specifications
 {
@@ -17,5 +17,6 @@ namespace Agriculture.Domain.Specifications
         bool IsPagingEnabled { get; }
 
         public bool IgnoreQueryFilters { get; }
+        public bool IsSoftDeleteEnabled { get; }
     }
 }

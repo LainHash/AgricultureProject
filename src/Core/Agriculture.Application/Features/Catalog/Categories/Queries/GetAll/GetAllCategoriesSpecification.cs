@@ -6,6 +6,9 @@ namespace Agriculture.Application.Features.Catalog.Categories.Queries.GetAll
     public class GetAllCategoriesSpecification
         : BaseSpecification<Category>
     {
-        public GetAllCategoriesSpecification(GetAllCategoriesQuery query) { }
+        public GetAllCategoriesSpecification(GetAllCategoriesQuery query)
+        {
+            EnableSoftDeleteFilter();
+        }
     }
 }

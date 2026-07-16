@@ -1,4 +1,4 @@
-﻿using System.Linq.Expressions;
+using System.Linq.Expressions;
 
 namespace Agriculture.Domain.Specifications
 {
@@ -27,9 +27,16 @@ namespace Agriculture.Domain.Specifications
 
         public bool IgnoreQueryFilters { get; private set; }
 
+        public bool IsSoftDeleteEnabled { get; private set; }
+
         protected void AddIgnoreQueryFilters()
         {
             IgnoreQueryFilters = true;
+        }
+
+        protected void EnableSoftDeleteFilter()
+        {
+            IsSoftDeleteEnabled = true;
         }
 
         protected void AddInclude(Expression<Func<TEntity, object>> include)

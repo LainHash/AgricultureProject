@@ -6,6 +6,9 @@ namespace Agriculture.Application.Features.Catalog.PlantSpecicess.Queries.GetAll
     public class GetAllPlantSpecicesSpecification
         : BaseSpecification<PlantSpecices>
     {
-        public GetAllPlantSpecicesSpecification(GetAllPlantSpecicesQuery query) { }
+        public GetAllPlantSpecicesSpecification(GetAllPlantSpecicesQuery query)
+        {
+            EnableSoftDeleteFilter();
+        }
     }
 }
