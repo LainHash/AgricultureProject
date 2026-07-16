@@ -8,11 +8,15 @@ namespace Agriculture.Application.Services.Identity
     public interface IRoleService
     {
         Task<Result<IEnumerable<RoleResponse>>> GetAllAsync(
-            GetAllRoleSpecification specification,
+            GetAllRolesSpecification specification,
             CancellationToken cancellationToken);
 
         Task<Result<RoleResponse>> GetByIdAsync(
             GetRoleByIdSpecification specification,
+            CancellationToken cancellationToken);
+
+        Task<Result<RoleResponse>> CreateAsync(
+            CreateRoleRequest request,
             CancellationToken cancellationToken);
     }
 }

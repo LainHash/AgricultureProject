@@ -3,10 +3,10 @@ using Agriculture.Domain.Specifications;
 
 namespace Agriculture.Application.Features.Identity.Roles.Queries.GetAll
 {
-    public class GetAllRoleSpecification
+    public class GetAllRolesSpecification
         : BaseSpecification<Role>
     {
-        public GetAllRoleSpecification(GetAllRoleQuery query)
+        public GetAllRolesSpecification(GetAllRolesQuery query)
         {
             EnableSoftDeleteFilter();
         }

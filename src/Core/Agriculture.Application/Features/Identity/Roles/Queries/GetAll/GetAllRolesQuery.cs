@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Agriculture.Application.Features.Identity.Roles.Queries.GetAll
 {
-    public record GetAllRoleQuery
+    public record GetAllRolesQuery
         : IRequest<Result<IEnumerable<RoleResponse>>>
     {
     }

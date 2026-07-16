@@ -1,6 +1,7 @@
 ﻿using Agriculture.Application.Services;
 using Agriculture.Application.Services.Catalog;
 using Agriculture.Application.Services.Guest;
+using Agriculture.Application.Services.Identity;
 using Agriculture.Domain.Repositories;
 using Agriculture.Persistence.Contexts;
 using Agriculture.Persistence.Repositories;
@@ -9,6 +10,7 @@ using Agriculture.Persistence.Seeders;
 using Agriculture.Persistence.Services;
 using Agriculture.Persistence.Services.Catalog;
 using Agriculture.Persistence.Services.Guest;
+using Agriculture.Persistence.Services.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -72,6 +74,7 @@ namespace Agriculture.Persistence
             services.AddScoped<IPlantSpecicesService, PlantSpecicesService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IPlayerService, PlayerService>();
+            services.AddScoped<IRoleService, RoleService>();
 
             return services;
         }
