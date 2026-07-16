@@ -1,4 +1,5 @@
 ﻿using Agriculture.Application.Features.Catalog.Categories.Commands.Create;
+using Agriculture.Application.Features.Catalog.Categories.Commands.Delete;
 using Agriculture.Application.Features.Catalog.Categories.Commands.Update;
 using Agriculture.Application.Features.Catalog.Categories.Queries.GetAll;
 using Agriculture.Application.Features.Catalog.Categories.Queries.GetById;
@@ -55,6 +56,16 @@ namespace Agriculture.API.Controllers.Catalog
             CancellationToken cancellationToken)
         {
             var command = new UpdateCategoryCommand(id, body);
+            var result = await _mediator.Send(command, cancellationToken);
+            return StatusCode(result.StatusCode, result);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(
+            [FromRoute] Guid id,
+            CancellationToken cancellationToken)
+        {
+            var command = new DeleteCategoryCommand(id);
             var result = await _mediator.Send(command, cancellationToken);
             return StatusCode(result.StatusCode, result);
         }
