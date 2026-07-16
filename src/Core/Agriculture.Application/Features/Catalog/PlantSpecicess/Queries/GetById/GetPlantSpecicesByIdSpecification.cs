@@ -9,6 +9,8 @@ namespace Agriculture.Application.Features.Catalog.PlantSpecicess.Queries.GetByI
         public GetPlantSpecicesByIdSpecification(GetPlantSpecicesByIdQuery query)
         {
             Criteria = ps => ps.PublicId == query.Id;
+
+            EnableSoftDeleteFilter();
         }
     }
 }

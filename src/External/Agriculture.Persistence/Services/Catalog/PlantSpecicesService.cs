@@ -33,7 +33,7 @@ namespace Agriculture.Persistence.Services.Catalog
             CancellationToken cancellationToken)
         {
             var specices = await _plantSpecicesRepository.ToListAsync(specification, cancellationToken);
-            if(specices.Any())
+            if(!specices.Any())
             {
                 return Result<IEnumerable<PlantSpecicesResponse>>
                     .Fail(Error<PlantSpecices>.EmptyList);

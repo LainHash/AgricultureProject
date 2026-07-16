@@ -1,4 +1,4 @@
-﻿using Agriculture.Domain.Specifications;
+using Agriculture.Domain.Specifications;
 using Microsoft.EntityFrameworkCore;
 
 namespace Agriculture.Persistence.Specifications
@@ -10,6 +10,11 @@ namespace Agriculture.Persistence.Specifications
             if (spec.IgnoreQueryFilters)
             {
                 query = query.IgnoreQueryFilters();
+            }
+
+            if (spec.IsSoftDeleteEnabled && typeof(Agriculture.Domain.Abstraction.SoftDeletableEntity).IsAssignableFrom(typeof(TEntity)))
+            {
+                query = query.Where(x => EF.Property<bool>(x, "IsDeleted") == false);
             }
 
             // 1. Áp dụng bộ lọc Điều kiện (Criteria / Where)

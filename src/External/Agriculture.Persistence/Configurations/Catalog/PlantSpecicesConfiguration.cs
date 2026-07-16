@@ -32,29 +32,29 @@ namespace Agriculture.Persistence.Configurations.Catalog
 
             builder.Property(x => x.GrowDays)
                 .IsRequired()
-                .HasColumnType("decimal(5,4)");
+                .HasColumnType("decimal(9,4)");
 
             builder.Property(x => x.HarvestDays)
                 .IsRequired()
-                .HasColumnType("decimal(5,4)");
+                .HasColumnType("decimal(9,4)");
 
             builder.Property(x => x.WaterIntervalHours)
                 .IsRequired()
-               .HasColumnType("decimal(4,4)");
+               .HasColumnType("decimal(8,4)");
 
             //Đơn vị riêng 0 - 1000
             builder.Property(x => x.SunlightLevel)
                 .IsRequired()
-                .HasColumnType("decimal(4,2)");
+                .HasColumnType("decimal(6,2)");
 
             //Đơn vị độ C
             builder.Property(x => x.TemperatureMin)
                 .IsRequired()
-                .HasColumnType("decimal(3,2)");
+                .HasColumnType("decimal(5,2)");
 
             builder.Property(x => x.TemperatureMax)
                 .IsRequired()
-                .HasColumnType("decimal(3,2)");
+                .HasColumnType("decimal(5,2)");
         }
     }
 }

@@ -1,0 +1,84 @@
+﻿using Agriculture.Application.Features.Catalog.Categories.Commands.Create;
+using Agriculture.Application.Features.Catalog.Categories.Commands.Delete;
+using Agriculture.Application.Features.Catalog.Categories.Commands.Restore;
+using Agriculture.Application.Features.Catalog.Categories.Commands.Update;
+using Agriculture.Application.Features.Catalog.Categories.Queries.GetAll;
+using Agriculture.Application.Features.Catalog.Categories.Queries.GetById;
+using Agriculture.Contract.DTOs.Catalog.Categories;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Agriculture.API.Controllers.Catalog
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class CategoriesController : ControllerBase
+    {
+        private readonly IMediator _mediator;
+
+        public CategoriesController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll(
+            [FromQuery] GetAllCategoriesQuery query,
+            CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(query, cancellationToken);
+            return StatusCode(result.StatusCode, result);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetOne(
+            [FromRoute] Guid id,
+            CancellationToken cancellationToken)
+        {
+            var query = new GetCategoryByIdQuery(id);
+            var result = await _mediator.Send(query, cancellationToken);
+            return StatusCode(result.StatusCode, result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(
+            [FromBody] CreateCategoryRequest body,
+            CancellationToken cancellationToken)
+        {
+            var command = new CreateCategoryCommand(body);
+            var result = await _mediator.Send(command, cancellationToken);
+            return StatusCode(result.StatusCode, result);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(
+            [FromRoute] Guid id,
+            [FromBody] UpdateCategoryRequest body,
+            CancellationToken cancellationToken)
+        {
+            var command = new UpdateCategoryCommand(id, body);
+            var result = await _mediator.Send(command, cancellationToken);
+            return StatusCode(result.StatusCode, result);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(
+            [FromRoute] Guid id,
+            CancellationToken cancellationToken)
+        {
+            var command = new DeleteCategoryCommand(id);
+            var result = await _mediator.Send(command, cancellationToken);
+            return StatusCode(result.StatusCode, result);
+        }
+
+        [HttpPatch("{id}/restore")]
+        public async Task<IActionResult> Restore(
+            [FromRoute] Guid id,
+            CancellationToken cancellationToken)
+        {
+            var command = new RestoreCategoryCommand(id);
+            var result = await _mediator.Send(command, cancellationToken);
+            return StatusCode(result.StatusCode, result);
+        }
+    }
+}
