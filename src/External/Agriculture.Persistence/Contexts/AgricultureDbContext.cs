@@ -1,4 +1,6 @@
 ﻿using Agriculture.Domain.Entites.Catalog;
+using Agriculture.Domain.Entites.Guest;
+using Agriculture.Domain.Entites.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -12,7 +14,10 @@ namespace Agriculture.Persistence.Contexts
         }
 
         public DbSet<PlantSpecices> PlantSpecices { get; set; } = null!;
-        public DbSet<Category> Categories { get; set; }
+        public DbSet<Category> Categories { get; set; } = null!;
+        public DbSet<Role> Roles { get; set; } = null!;
+        public DbSet<User> Users { get; set; } = null!;
+        public DbSet<Player> Players { get; set; } = null!;
 
         // ── Model building ──────────────────────────────────────────────────
         protected override void OnModelCreating(ModelBuilder modelBuilder)
