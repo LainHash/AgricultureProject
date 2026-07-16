@@ -1,4 +1,5 @@
-﻿using Agriculture.Application.Features.Catalog.Categories.Queries.GetAll;
+﻿using Agriculture.Application.Features.Catalog.Categories.Commands.Update;
+using Agriculture.Application.Features.Catalog.Categories.Queries.GetAll;
 using Agriculture.Application.Features.Catalog.Categories.Queries.GetById;
 using Agriculture.Application.Models.Results;
 using Agriculture.Contract.DTOs.Catalog.Categories;
@@ -17,6 +18,10 @@ namespace Agriculture.Application.Services.Catalog
 
         Task<Result<CategoryResponse>> CreateAsync(
             CreateCategoryRequest request,
+            CancellationToken cancellationToken);
+
+        Task<Result<CategoryResponse>> UpdateAsync(
+            UpdateCategorySpecification specification,
             CancellationToken cancellationToken);
     }
 }

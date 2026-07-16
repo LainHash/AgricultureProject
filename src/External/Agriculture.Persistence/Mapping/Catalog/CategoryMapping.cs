@@ -11,6 +11,8 @@ namespace Agriculture.Persistence.Mapping.Catalog
         {
             CreateMap<CategoryRecord, Category>();
             CreateMap<Category, CategoryResponse>();
+            CreateMap<CreateCategoryRequest, Category>();
+            CreateMap<UpdateCategoryRequest, Category>();
         }
     }
 }
