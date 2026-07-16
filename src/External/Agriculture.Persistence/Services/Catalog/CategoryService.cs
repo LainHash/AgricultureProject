@@ -1,4 +1,5 @@
 ﻿using Agriculture.Application.Features.Catalog.Categories.Commands.Delete;
+using Agriculture.Application.Features.Catalog.Categories.Commands.Restore;
 using Agriculture.Application.Features.Catalog.Categories.Commands.Update;
 using Agriculture.Application.Features.Catalog.Categories.Queries.GetAll;
 using Agriculture.Application.Features.Catalog.Categories.Queries.GetById;
@@ -120,6 +121,30 @@ namespace Agriculture.Persistence.Services.Catalog
 
             return Result<object>
                 .Succeed(default, Success<Category>.Deleted, HttpStatusCode.Accepted);
+        }
+
+        public async Task<Result<object>> RestoreAsync(RestoreCategorySpecification specification, CancellationToken cancellationToken)
+        {
+            var category = await _categoryRepository.FindAsync(specification, cancellationToken);
+            if (category is null)
+            {
+                return Result<object>
+                    .Fail(Error<Category>.NotFound, HttpStatusCode.NotFound);
+            }
+
+            if (!category.IsDeleted)
+            {
+                return Result<object>
+                    .Fail(Error<Category>.NotYetDeleted, HttpStatusCode.Conflict);
+            }
+
+            category.Restore();
+            _categoryRepository.Update(category);
+
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            return Result<object>
+                .Succeed(default, Success<Category>.Restored, HttpStatusCode.Accepted);
         }
     }
 }

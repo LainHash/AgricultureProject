@@ -1,4 +1,5 @@
 ﻿using Agriculture.Application.Features.Catalog.Categories.Commands.Delete;
+using Agriculture.Application.Features.Catalog.Categories.Commands.Restore;
 using Agriculture.Application.Features.Catalog.Categories.Commands.Update;
 using Agriculture.Application.Features.Catalog.Categories.Queries.GetAll;
 using Agriculture.Application.Features.Catalog.Categories.Queries.GetById;
@@ -27,6 +28,10 @@ namespace Agriculture.Application.Services.Catalog
 
         Task<Result<object>> DeleteAsync(
             DeleteCategorySpecification specification,
+            CancellationToken cancellationToken);
+
+        Task<Result<object>> RestoreAsync(
+            RestoreCategorySpecification specification,
             CancellationToken cancellationToken);
     }
 }
