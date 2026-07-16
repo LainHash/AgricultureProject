@@ -1,4 +1,5 @@
-﻿using Agriculture.Application.Features.Catalog.Categories.Commands.Update;
+﻿using Agriculture.Application.Features.Catalog.Categories.Commands.Delete;
+using Agriculture.Application.Features.Catalog.Categories.Commands.Update;
 using Agriculture.Application.Features.Catalog.Categories.Queries.GetAll;
 using Agriculture.Application.Features.Catalog.Categories.Queries.GetById;
 using Agriculture.Application.Models.Messages;
@@ -95,6 +96,30 @@ namespace Agriculture.Persistence.Services.Catalog
             var response = _mapper.Map<CategoryResponse>(category);
             return Result<CategoryResponse>
                 .Succeed(response, Success<Category>.Updated, HttpStatusCode.Accepted);
+        }
+
+        public async Task<Result<object>> DeleteAsync(DeleteCategorySpecification specification, CancellationToken cancellationToken)
+        {
+            var category = await _categoryRepository.FindAsync(specification, cancellationToken);
+            if (category is null)
+            {
+                return Result<object>
+                    .Fail(Error<Category>.NotFound, HttpStatusCode.NotFound);
+            }
+
+            if (category.IsDeleted)
+            {
+                return Result<object>
+                    .Fail(Error<Category>.AlreadyDeleted, HttpStatusCode.Conflict);
+            }
+
+            category.SoftDelete();
+            _categoryRepository.Update(category);
+
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            return Result<object>
+                .Succeed(default, Success<Category>.Deleted, HttpStatusCode.Accepted);
         }
     }
 }

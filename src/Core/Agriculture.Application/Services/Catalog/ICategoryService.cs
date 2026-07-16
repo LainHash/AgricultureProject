@@ -1,4 +1,5 @@
-﻿using Agriculture.Application.Features.Catalog.Categories.Commands.Update;
+﻿using Agriculture.Application.Features.Catalog.Categories.Commands.Delete;
+using Agriculture.Application.Features.Catalog.Categories.Commands.Update;
 using Agriculture.Application.Features.Catalog.Categories.Queries.GetAll;
 using Agriculture.Application.Features.Catalog.Categories.Queries.GetById;
 using Agriculture.Application.Models.Results;
@@ -22,6 +23,10 @@ namespace Agriculture.Application.Services.Catalog
 
         Task<Result<CategoryResponse>> UpdateAsync(
             UpdateCategorySpecification specification,
+            CancellationToken cancellationToken);
+
+        Task<Result<object>> DeleteAsync(
+            DeleteCategorySpecification specification,
             CancellationToken cancellationToken);
     }
 }
