@@ -21,9 +21,4 @@
 		<ProjectReference Include="..\..\Shared\Agriculture.Contract\Agriculture.Contract.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Authentication\" />
-	  <Folder Include="Services\" />
-	</ItemGroup>
-
 </Project>
