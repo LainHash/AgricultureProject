@@ -1,4 +1,4 @@
-﻿using Agriculture.Application.Models.Results;
+using Agriculture.Application.Models.Results;
 using Agriculture.Contract.DTOs.Authentication;
 
 namespace Agriculture.Application.Services.Authentication
@@ -16,6 +16,10 @@ namespace Agriculture.Application.Services.Authentication
         Task<Result<object>> VerifyEmailAsync(
             Guid userId,
             VerifyEmailRequest request,
+            CancellationToken cancellationToken = default);
+
+        Task<Result<object>> ResendVerificationAsync(
+            ResendVerificationRequest request,
             CancellationToken cancellationToken = default);
     }
 }

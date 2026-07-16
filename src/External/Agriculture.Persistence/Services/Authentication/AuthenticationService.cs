@@ -1,4 +1,4 @@
-﻿using Agriculture.Application.Models.Messages;
+using Agriculture.Application.Models.Messages;
 using Agriculture.Application.Models.Results;
 using Agriculture.Application.Services;
 using Agriculture.Application.Services.Authentication;
@@ -190,6 +190,42 @@ namespace Agriculture.Persistence.Services.Authentication
         private string GenerateCode()
         {
             return RandomNumberGenerator.GetInt32(100000, 1000000).ToString();
+        }
+
+        public async Task<Result<object>> ResendVerificationAsync(
+            ResendVerificationRequest request,
+            CancellationToken cancellationToken = default)
+        {
+            var user = await _userRepository.FindAsync(request.Email, cancellationToken);
+            if (user is null)
+            {
+                return Result<object>
+                    .Fail(Error<User>.NotFound, HttpStatusCode.NotFound);
+            }
+
+            if (user.IsActive)
+            {
+                return Result<object>
+                    .Fail("Account is already active.", HttpStatusCode.Conflict);
+            }
+
+            var newCode = GenerateCode();
+            user.SetVerificationCode(newCode);
+
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            try
+            {
+                var message = new EmailMessage(user.Username, newCode);
+                await _emailService.SendEmailAsync(user.Email, message, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Resend verification email failed. Email: {Email}", user.Email);
+            }
+
+            return Result<object>
+                .Succeed(default, "Verification email resent. Please check your inbox.", HttpStatusCode.OK);
         }
     }
 }
