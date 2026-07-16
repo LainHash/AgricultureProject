@@ -1,6 +1,12 @@
 ﻿using Agriculture.Application.Services.Authentication;
+using Agriculture.Application.Services.Emails;
+using Agriculture.Application.Services.Storage;
 using Agriculture.Contract.Settings.Authentication;
+using Agriculture.Contract.Settings.Emails;
+using Agriculture.Contract.Settings.Storage;
 using Agriculture.Infrastructure.Services.Authentication;
+using Agriculture.Infrastructure.Services.Emails;
+using Agriculture.Infrastructure.Services.Storage;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,17 +19,17 @@ namespace Agriculture.Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             // ── Cloudinary ───────────────────────────────────────────────────
-            //services.Configure<CloudinarySettings>(
-            //    configuration.GetSection(CloudinarySettings.SectionName));
-            //services.AddScoped<ICloudinaryService, CloudinaryService>();
+            services.Configure<CloudinarySettings>(
+                configuration.GetSection(CloudinarySettings.SectionName));
+            services.AddScoped<ICloudinaryService, CloudinaryService>();
 
             // ── Authentication & Security ────────────────────────────────────
             services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
-            //services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
+            services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
 
             services.AddScoped<IJwtProvider, JwtProvider>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
-            //services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IEmailService, EmailService>();
 
             var jwtSettings = configuration.GetSection("JwtSettings").Get<JwtSettings>();
             if (jwtSettings is not null)
