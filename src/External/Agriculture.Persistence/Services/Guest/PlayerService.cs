@@ -1,10 +1,12 @@
 ﻿using Agriculture.Application.Features.Guest.Players.Queries.GetAll;
+using Agriculture.Application.Features.Guest.Players.Queries.GetById;
 using Agriculture.Application.Models.Messages;
 using Agriculture.Application.Models.Results;
 using Agriculture.Application.Services.Guest;
 using Agriculture.Contract.DTOs.Guest.Players;
 using Agriculture.Domain.Entites.Guest;
 using Agriculture.Domain.Repositories.Guest;
+using System.Net;
 
 namespace Agriculture.Persistence.Services.Guest
 {
@@ -29,6 +31,20 @@ namespace Agriculture.Persistence.Services.Guest
             var response = players.Select(x => new PlayerResponse(x));
             return Result<IEnumerable<PlayerResponse>>
                 .Succeed(response, Success<Player>.Retrieved);
+        }
+
+        public async Task<Result<PlayerResponse>> GetByIdAsync(GetPlayerByIdSpecification specification, CancellationToken cancellationToken)
+        {
+            var player = await _playerRepository.FindAsync(specification, cancellationToken);
+            if (player is null)
+            {
+                return Result<PlayerResponse>
+                    .Fail(Error<Player>.NotFound, HttpStatusCode.NotFound);
+            }
+
+            var response = new PlayerResponse(player);
+            return Result<PlayerResponse>
+                    .Succeed(response, Success<Player>.Retrieved);
         }
     }
 }
