@@ -1,4 +1,5 @@
 ﻿using Agriculture.Application.Features.Catalog.Categories.Commands.Create;
+using Agriculture.Application.Features.Catalog.Categories.Commands.Update;
 using Agriculture.Application.Features.Catalog.Categories.Queries.GetAll;
 using Agriculture.Application.Features.Catalog.Categories.Queries.GetById;
 using Agriculture.Contract.DTOs.Catalog.Categories;
@@ -43,6 +44,17 @@ namespace Agriculture.API.Controllers.Catalog
             CancellationToken cancellationToken)
         {
             var command = new CreateCategoryCommand(body);
+            var result = await _mediator.Send(command, cancellationToken);
+            return StatusCode(result.StatusCode, result);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(
+            [FromRoute] Guid id,
+            [FromBody] UpdateCategoryRequest body,
+            CancellationToken cancellationToken)
+        {
+            var command = new UpdateCategoryCommand(id, body);
             var result = await _mediator.Send(command, cancellationToken);
             return StatusCode(result.StatusCode, result);
         }
