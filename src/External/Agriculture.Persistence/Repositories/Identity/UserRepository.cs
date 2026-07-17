@@ -20,5 +20,10 @@ namespace Agriculture.Persistence.Repositories.Identity
                 x.Email == emailOrUserName,
                 cancellationToken);
         }
+
+        public async Task<User?> FindAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            return await _context.Users.FirstOrDefaultAsync(x => x.PublicId == id, cancellationToken);
+        }
     }
 }
