@@ -34,6 +34,9 @@ namespace Agriculture.Persistence.Configurations.Territory
                 .HasDefaultValue(nameof(GardenPlotStatus.Empty))
                 .HasMaxLength(20)
                 .IsRequired();
+
+            builder.HasIndex(x => new { x.GardenId, x.Row, x.Column })
+                .IsUnique();
         }
     }
 }

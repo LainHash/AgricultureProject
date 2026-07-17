@@ -1,6 +1,6 @@
 ﻿namespace Agriculture.Contract.DTOs.Territory
 {
-    public class GardentPlotResponse
+    public class GardenPlotResponse
     {
         public int GardenId { get; set; }
         public int Row { get; set; }
