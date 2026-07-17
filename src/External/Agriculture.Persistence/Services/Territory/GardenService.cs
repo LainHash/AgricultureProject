@@ -3,7 +3,7 @@ using Agriculture.Application.Features.Territory.Gardens.GetById;
 using Agriculture.Application.Models.Messages;
 using Agriculture.Application.Models.Results;
 using Agriculture.Application.Services.Territory;
-using Agriculture.Contract.DTOs.Territory;
+using Agriculture.Contract.DTOs.Territory.Gardens;
 using Agriculture.Domain.Entites.Territory;
 using Agriculture.Domain.Repositories.Territory;
 using AutoMapper;

@@ -29,7 +29,12 @@ namespace Agriculture.Persistence.Configurations.Territory
             builder.HasMany(x => x.GardenPlots)
                 .WithOne(x => x.Garden)
                 .HasForeignKey(x => x.GardenId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(x => x.Player)
+                .WithMany(x => x.Gardens)
+                .HasForeignKey(x => x.PlayerId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

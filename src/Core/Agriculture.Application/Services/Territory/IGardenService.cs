@@ -1,7 +1,7 @@
 ﻿using Agriculture.Application.Features.Territory.Gardens.GetAll;
 using Agriculture.Application.Features.Territory.Gardens.GetById;
 using Agriculture.Application.Models.Results;
-using Agriculture.Contract.DTOs.Territory;
+using Agriculture.Contract.DTOs.Territory.Gardens;
 
 namespace Agriculture.Application.Services.Territory
 {

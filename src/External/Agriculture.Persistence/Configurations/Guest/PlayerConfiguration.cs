@@ -18,6 +18,33 @@ namespace Agriculture.Persistence.Configurations.Guest
             builder.Property(x => x.PublicId)
                 .HasDefaultValueSql("gen_random_uuid()")
                 .IsRequired();
+
+            builder.Property(x => x.Nickname)
+                .HasDefaultValue("Gardener")
+                .IsRequired();
+
+            builder.Property(x => x.Level)
+                .HasDefaultValue(0)
+                .IsRequired();
+
+            builder.Property(x => x.Experience)
+                .HasDefaultValue(0)
+                .IsRequired();
+
+            builder.Property(x => x.Gold)
+                .HasDefaultValue(0)
+                .IsRequired();
+
+            builder.Property(x => x.Gem)
+                .HasDefaultValue(0)
+                .IsRequired();
+
+            builder.Property(x => x.Energy)
+                .HasDefaultValue(360)
+                .IsRequired();
+
+            builder.Property(x => x.LastLoginAt)
+                .IsRequired();
         }
     }
 }

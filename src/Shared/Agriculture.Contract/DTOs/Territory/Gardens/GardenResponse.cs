@@ -1,4 +1,6 @@
-﻿namespace Agriculture.Contract.DTOs.Territory
+﻿using Agriculture.Contract.DTOs.Territory.GardenPlots;
+
+namespace Agriculture.Contract.DTOs.Territory.Gardens
 {
     public class GardenResponse
     {

@@ -1,4 +1,5 @@
-﻿using Agriculture.Contract.DTOs.Territory;
+﻿using Agriculture.Contract.DTOs.Territory.GardenPlots;
+using Agriculture.Contract.DTOs.Territory.Gardens;
 using Agriculture.Domain.Entites.Territory;
 using AutoMapper;
 using static Agriculture.Persistence.Seeders.Territory.GardenPlotSeeder;

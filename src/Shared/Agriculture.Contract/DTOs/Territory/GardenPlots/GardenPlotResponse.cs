@@ -1,4 +1,4 @@
-﻿namespace Agriculture.Contract.DTOs.Territory
+﻿namespace Agriculture.Contract.DTOs.Territory.GardenPlots
 {
     public class GardenPlotResponse
     {

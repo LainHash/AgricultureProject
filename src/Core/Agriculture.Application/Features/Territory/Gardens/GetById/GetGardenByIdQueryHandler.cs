@@ -1,6 +1,6 @@
 ﻿using Agriculture.Application.Models.Results;
 using Agriculture.Application.Services.Territory;
-using Agriculture.Contract.DTOs.Territory;
+using Agriculture.Contract.DTOs.Territory.Gardens;
 using MediatR;
 
 namespace Agriculture.Application.Features.Territory.Gardens.GetById
