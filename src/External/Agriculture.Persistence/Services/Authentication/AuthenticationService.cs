@@ -6,11 +6,11 @@ using Agriculture.Application.Services.Emails;
 using Agriculture.Contract.DTOs.Authentication;
 using Agriculture.Domain.Entites.Guest;
 using Agriculture.Domain.Entites.Identity;
+using Agriculture.Domain.Entites.Territory;
 using Agriculture.Domain.Enums;
 using Agriculture.Domain.Repositories.Guest;
 using Agriculture.Domain.Repositories.Identity;
-using Agriculture.Domain.Specifications;
-using Agriculture.Persistence.Repositories.Identity;
+using Agriculture.Domain.Repositories.Territory;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using System.Net;
@@ -23,6 +23,8 @@ namespace Agriculture.Persistence.Services.Authentication
         private readonly IUserRepository _userRepository;
         private readonly IRoleRepository _roleRepository;
         private readonly IPlayerRepository _playerRepository;
+        private readonly IGardenRepository _gardenRepository;
+        private readonly IGardenPlotRepository _gardenPlotRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPasswordHasher _passwordHasher;
         private readonly IJwtProvider _jwtProvider;
@@ -39,7 +41,9 @@ namespace Agriculture.Persistence.Services.Authentication
             IMapper mapper,
             IPlayerRepository playerRepository,
             IEmailService emailService,
-            ILogger<AuthenticationService> logger)
+            ILogger<AuthenticationService> logger,
+            IGardenRepository gardenRepository,
+            IGardenPlotRepository gardenPlotRepository)
         {
             _userRepository = userRepository;
             _unitOfWork = unitOfWork;
@@ -50,6 +54,8 @@ namespace Agriculture.Persistence.Services.Authentication
             _playerRepository = playerRepository;
             _emailService = emailService;
             _logger = logger;
+            _gardenRepository = gardenRepository;
+            _gardenPlotRepository = gardenPlotRepository;
         }
 
         public async Task<Result<object>> RegisterAsync(
@@ -87,6 +93,16 @@ namespace Agriculture.Persistence.Services.Authentication
 
                 var player = Player.Create(user.Id);
                 _playerRepository.Add(player);
+
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+                var garden = Garden.UnlockHomeGarden(player.Id);
+                _gardenRepository.Add(garden);
+
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+                var plots = GardenPlot.HomeGardenPlots(garden.Id);
+                _gardenPlotRepository.AddRange(plots);
 
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
 

@@ -29,5 +29,10 @@ namespace Agriculture.Domain.Entites.Territory
         {
             PlayerId = playerId;
         }
+
+        public static Garden UnlockHomeGarden(int playerId)
+        {
+            return new Garden("Home Garden", "Small backyard garden for vegetables and herbs.", playerId);
+        }
     }
 }

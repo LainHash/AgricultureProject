@@ -40,6 +40,11 @@ namespace Agriculture.Persistence.Repositories
             Entity.Add(entity);
         }
 
+        public void AddRange(IEnumerable<TEntity> entities)
+        {
+            Entity.AddRange(entities);
+        }
+
         public void Update(TEntity entity)
         {
             Entity.Update(entity);
