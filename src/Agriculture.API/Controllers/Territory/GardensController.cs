@@ -1,4 +1,5 @@
 ﻿using Agriculture.Application.Features.Territory.Gardens.GetAll;
+using Agriculture.Application.Features.Territory.Gardens.GetById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +21,16 @@ namespace Agriculture.API.Controllers.Territory
             [FromQuery] GetAllGardensQuery query,
             CancellationToken cancellationToken)
         {
+            var result = await _mediator.Send(query, cancellationToken);
+            return StatusCode(result.StatusCode, result);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetOne(
+            [FromRoute] Guid id,
+            CancellationToken cancellationToken)
+        {
+            var query = new GetGardenByIdQuery(id);
             var result = await _mediator.Send(query, cancellationToken);
             return StatusCode(result.StatusCode, result);
         }
