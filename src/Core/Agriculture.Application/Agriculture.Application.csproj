@@ -20,6 +20,7 @@
 
 	<ItemGroup>
 	  <Folder Include="Common\" />
+	  <Folder Include="Features\Territory\Gardens\GetById\" />
 	</ItemGroup>
 
 </Project>
