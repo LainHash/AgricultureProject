@@ -116,11 +116,10 @@ namespace Agriculture.Persistence.Services.Authentication
         }
 
         public async Task<Result<object>> VerifyEmailAsync(
-            Guid userId,
             VerifyEmailRequest request,
             CancellationToken cancellationToken = default)
         {
-            var user = await _userRepository.FindAsync(userId, cancellationToken);
+            var user = await _userRepository.FindAsync(request.Email, cancellationToken);
             if (user == null)
             {
                 return Result<object>
@@ -150,7 +149,7 @@ namespace Agriculture.Persistence.Services.Authentication
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result<object>
-                .Succeed(default, "Email verified successfully. You can now complete your profile.", HttpStatusCode.Accepted);
+                .Succeed(default, "Email verified successfully. You can now login.", HttpStatusCode.Accepted);
         }
 
         public async Task<Result<AuthenticationResponse>> LoginAsync(
@@ -187,11 +186,6 @@ namespace Agriculture.Persistence.Services.Authentication
                 .Succeed(response, "Login successfully.", HttpStatusCode.Accepted);
         }
 
-        private string GenerateCode()
-        {
-            return RandomNumberGenerator.GetInt32(100000, 1000000).ToString();
-        }
-
         public async Task<Result<object>> ResendVerificationAsync(
             ResendVerificationRequest request,
             CancellationToken cancellationToken = default)
@@ -226,6 +220,11 @@ namespace Agriculture.Persistence.Services.Authentication
 
             return Result<object>
                 .Succeed(default, "Verification email resent. Please check your inbox.", HttpStatusCode.OK);
+        }
+
+        private string GenerateCode()
+        {
+            return RandomNumberGenerator.GetInt32(100000, 1000000).ToString();
         }
     }
 }

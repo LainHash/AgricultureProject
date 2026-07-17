@@ -14,7 +14,6 @@ namespace Agriculture.Application.Services.Authentication
             CancellationToken cancellationToken = default);
 
         Task<Result<object>> VerifyEmailAsync(
-            Guid userId,
             VerifyEmailRequest request,
             CancellationToken cancellationToken = default);
 
