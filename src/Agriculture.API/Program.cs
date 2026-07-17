@@ -27,7 +27,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Restaurant API", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Agriculture API", Version = "v1" });
 
     // Cấu hình nút Authorize cho Swagger UI
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -73,8 +73,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseHttpsRedirection();
 
 app.UseHttpsRedirection();
 

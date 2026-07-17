@@ -40,6 +40,7 @@ namespace Agriculture.Domain.Entites.Identity
 
         public void CompleteVerification()
         {
+            IsActive = true;
             VerificationCode = null;
             VerificationCodeExpiresAt = null;
         }

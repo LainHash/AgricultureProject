@@ -212,14 +212,15 @@ namespace Agriculture.Persistence.Services.Authentication
             {
                 var message = new EmailMessage(user.Username, newCode);
                 await _emailService.SendEmailAsync(user.Email, message, cancellationToken);
+
+                return Result<object>
+                .Succeed(default, "Verification email resent. Please check your inbox.", HttpStatusCode.OK);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Resend verification email failed. Email: {Email}", user.Email);
+                throw;
             }
-
-            return Result<object>
-                .Succeed(default, "Verification email resent. Please check your inbox.", HttpStatusCode.OK);
         }
 
         private string GenerateCode()

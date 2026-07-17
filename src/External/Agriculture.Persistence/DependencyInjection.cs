@@ -1,4 +1,5 @@
 ﻿using Agriculture.Application.Services;
+using Agriculture.Application.Services.Authentication;
 using Agriculture.Application.Services.Catalog;
 using Agriculture.Application.Services.Guest;
 using Agriculture.Application.Services.Identity;
@@ -8,6 +9,7 @@ using Agriculture.Persistence.Repositories;
 using Agriculture.Persistence.Repositories.Catalog;
 using Agriculture.Persistence.Seeders;
 using Agriculture.Persistence.Services;
+using Agriculture.Persistence.Services.Authentication;
 using Agriculture.Persistence.Services.Catalog;
 using Agriculture.Persistence.Services.Guest;
 using Agriculture.Persistence.Services.Identity;
@@ -70,6 +72,7 @@ namespace Agriculture.Persistence
             services.AddAutoMapper(cfg => cfg.AddMaps(typeof(DependencyInjection).Assembly));
 
             // ── Services ─────────────────────────────────────────────────────
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IPlantSpecicesService, PlantSpecicesService>();
             services.AddScoped<ICategoryService, CategoryService>();
