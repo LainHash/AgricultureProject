@@ -8,6 +8,8 @@ namespace Agriculture.Application.Features.Catalog.PlantSpecicess.Queries.GetAll
     {
         public GetAllPlantSpecicesSpecification(GetAllPlantSpecicesQuery query)
         {
+            AddInclude(x => x.Category);
+
             EnableSoftDeleteFilter();
         }
     }

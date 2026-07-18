@@ -10,6 +10,8 @@ namespace Agriculture.Application.Features.Catalog.PlantSpecicess.Queries.GetByI
         {
             Criteria = ps => ps.PublicId == query.Id;
 
+            AddInclude(x => x.Category);
+
             EnableSoftDeleteFilter();
         }
     }

@@ -3,6 +3,7 @@ namespace Agriculture.Contract.DTOs.Catalog.PlantSpecices
     public class CreatePlantSpecicesRequest
     {
         public string Name { get; set; } = string.Empty;
+        public int CategoryId { get; set; }
         public string ScientificName { get; set; } = string.Empty;
         public string? Description { get; set; }
         public decimal GrowDays { get; set; }

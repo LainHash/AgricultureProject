@@ -17,7 +17,8 @@ namespace Agriculture.Application.Features.Catalog.PlantSpecicess.Commands.Creat
 
         public async Task<Result<PlantSpecicesResponse>> Handle(CreatePlantSpecicesCommand request, CancellationToken cancellationToken)
         {
-            var response = await _plantSpecicesService.CreateAsync(request.Body, cancellationToken);
+            var specification = new CreatePlantSpecicesSpecification(request);
+            var response = await _plantSpecicesService.CreateAsync(specification, cancellationToken);
             return response;
         }
     }

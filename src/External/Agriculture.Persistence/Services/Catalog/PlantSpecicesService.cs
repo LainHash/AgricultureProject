@@ -1,4 +1,5 @@
-﻿using Agriculture.Application.Features.Catalog.PlantSpecicess.Queries.GetAll;
+﻿using Agriculture.Application.Features.Catalog.PlantSpecicess.Commands.Create;
+using Agriculture.Application.Features.Catalog.PlantSpecicess.Queries.GetAll;
 using Agriculture.Application.Features.Catalog.PlantSpecicess.Queries.GetById;
 using Agriculture.Application.Models.Messages;
 using Agriculture.Application.Models.Results;
@@ -44,7 +45,9 @@ namespace Agriculture.Persistence.Services.Catalog
                 .Succeed(response, Success<PlantSpecices>.Retrieved);
         }
 
-        public async Task<Result<PlantSpecicesResponse>> GetByIdAsync(GetPlantSpecicesByIdSpecification specification, CancellationToken cancellationToken)
+        public async Task<Result<PlantSpecicesResponse>> GetByIdAsync(
+            GetPlantSpecicesByIdSpecification specification,
+            CancellationToken cancellationToken)
         {
             var specices = await _plantSpecicesRepository.FindAsync(specification, cancellationToken);
             if(specices is null)
@@ -58,15 +61,20 @@ namespace Agriculture.Persistence.Services.Catalog
                 .Succeed(response, Success<PlantSpecices>.Retrieved);
         }
 
-        public async Task<Result<PlantSpecicesResponse>> CreateAsync(CreatePlantSpecicesRequest request, CancellationToken cancellationToken)
+        public async Task<Result<PlantSpecicesResponse>> CreateAsync(
+            CreatePlantSpecicesSpecification specification,
+            CancellationToken cancellationToken)
         {
             var specices = new PlantSpecices();
-            _mapper.Map(request, specices);
+            _mapper.Map(specification.Body, specices);
 
             _plantSpecicesRepository.Add(specices);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            var response = _mapper.Map<PlantSpecicesResponse>(specices);
+            specification.ApplyCriteria(specices.Id);
+            var createdSpecices = await _plantSpecicesRepository.FindAsync(specification, cancellationToken);
+
+            var response = _mapper.Map<PlantSpecicesResponse>(createdSpecices);
             return Result<PlantSpecicesResponse>
                 .Succeed(response, Success<PlantSpecices>.Retrieved);
         }

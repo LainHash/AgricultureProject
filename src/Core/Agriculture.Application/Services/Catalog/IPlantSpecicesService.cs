@@ -1,4 +1,5 @@
-﻿using Agriculture.Application.Features.Catalog.PlantSpecicess.Queries.GetAll;
+﻿using Agriculture.Application.Features.Catalog.PlantSpecicess.Commands.Create;
+using Agriculture.Application.Features.Catalog.PlantSpecicess.Queries.GetAll;
 using Agriculture.Application.Features.Catalog.PlantSpecicess.Queries.GetById;
 using Agriculture.Application.Models.Results;
 using Agriculture.Contract.DTOs.Catalog.PlantSpecices;
@@ -16,7 +17,7 @@ namespace Agriculture.Application.Services.Catalog
             CancellationToken cancellationToken);
 
         Task<Result<PlantSpecicesResponse>> CreateAsync(
-            CreatePlantSpecicesRequest request,
+            CreatePlantSpecicesSpecification specification,
             CancellationToken cancellationToken);
     }
 }
