@@ -1,4 +1,5 @@
 ﻿using Agriculture.Domain.Abstraction;
+using Agriculture.Domain.Entites.Catalog;
 using Agriculture.Domain.Entites.Templates;
 using Agriculture.Domain.Enums;
 
@@ -12,7 +13,8 @@ namespace Agriculture.Domain.Entites.Territory
         public string SoilType { get; private set; } = string.Empty;
         public string Status { get; private set; } = string.Empty;
 
-        public virtual Garden Garden { get; private set; } = null!;
+        public Garden Garden { get; private set; } = null!;
+        public Plant Plant { get; private set; } = null!;
     }
 
     public partial class GardenPlot
@@ -34,11 +36,8 @@ namespace Agriculture.Domain.Entites.Territory
         }
 
         public GardenPlot(GardenPlot plot)
+            : this(plot.Row, plot.Column, plot.SoilType, plot.Status)
         {
-            Row = plot.Row;
-            Column = plot.Column;
-            SoilType = plot.SoilType;
-            Status = nameof(GardenPlotStatus.Empty);
         }
 
         public GardenPlot(GardenPlot plot, int gardenId)
@@ -58,7 +57,9 @@ namespace Agriculture.Domain.Entites.Territory
             GardenId = gardenId;
         }
 
-        public static IEnumerable<GardenPlot> FromTemplates(IEnumerable<GardenPlotTemplate> templates, int gardenId)
+        public static IEnumerable<GardenPlot> FromTemplates(
+            IEnumerable<GardenPlotTemplate> templates,
+            int gardenId)
         {
             return templates.Select(x => new GardenPlot(x, gardenId));
         }

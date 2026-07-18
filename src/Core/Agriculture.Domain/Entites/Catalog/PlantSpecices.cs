@@ -13,6 +13,11 @@ namespace Agriculture.Domain.Entites.Catalog
         public decimal SunlightLevel { get; private set; }
         public decimal TemperatureMin { get; private set; }
         public decimal TemperatureMax { get; private set; }
+
+        public int CategoryId { get; private set; }
+
+        public Category Category { get; private set; } = null!;
+        public ICollection<Plant> Plants { get; private set; } = [];
     }
 
     public partial class PlantSpecices

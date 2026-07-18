@@ -25,6 +25,11 @@ namespace Agriculture.Persistence.Configurations.Catalog
 
             builder.Property(x => x.Description)
                 .HasMaxLength(500);
+
+            builder.HasMany(x => x.PlantSpecices)
+                .WithOne(x => x.Category)
+                .HasForeignKey(x => x.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

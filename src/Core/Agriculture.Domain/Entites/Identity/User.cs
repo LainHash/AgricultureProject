@@ -16,8 +16,8 @@ namespace Agriculture.Domain.Entites.Identity
 
         public int RoleId { get; private set; }
 
-        public virtual Role Role { get; private set; } = null!;
-        public virtual Player Player { get; private set; } = null!;
+        public Role Role { get; private set; } = null!;
+        public Player Player { get; private set; } = null!;
     }
 
     public partial class User

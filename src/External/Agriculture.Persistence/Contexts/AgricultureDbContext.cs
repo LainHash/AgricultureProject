@@ -15,11 +15,14 @@ namespace Agriculture.Persistence.Contexts
         {
         }
 
+        public DbSet<Plant> Plants { get; set; } = null!;
         public DbSet<PlantSpecices> PlantSpecices { get; set; } = null!;
         public DbSet<Category> Categories { get; set; } = null!;
+
         public DbSet<Role> Roles { get; set; } = null!;
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<Player> Players { get; set; } = null!;
+
         public DbSet<Garden> Gardens { get; set; } = null!;
         public DbSet<GardenPlot> GardenPlots { get; set; } = null!;
 

@@ -13,6 +13,6 @@ namespace Agriculture.Domain.Entites.Templates
 
         public int? ReferenceId { get; private set; }
 
-        public virtual ICollection<GardenPlotTemplate> GardenPlotTemplates { get; private set; } = [];
+        public ICollection<GardenPlotTemplate> GardenPlotTemplates { get; private set; } = [];
     }
 }

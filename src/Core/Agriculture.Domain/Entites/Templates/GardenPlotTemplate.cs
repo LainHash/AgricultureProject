@@ -9,6 +9,6 @@ namespace Agriculture.Domain.Entites.Templates
         public int Column { get; private set; }
         public string SoilType { get; private set; } = string.Empty;
 
-        public virtual GardenTemplate GardenTemplate { get; private set; } = null!;
+        public GardenTemplate GardenTemplate { get; private set; } = null!;
     }
 }

@@ -11,8 +11,8 @@ namespace Agriculture.Domain.Entites.Territory
 
         public int PlayerId { get; private set; }
 
-        public virtual ICollection<GardenPlot> GardenPlots { get; private set; } = [];
-        public virtual Player Player { get; private set; } = null!;
+        public ICollection<GardenPlot> GardenPlots { get; private set; } = [];
+        public Player Player { get; private set; } = null!;
     }
 
     public partial class Garden

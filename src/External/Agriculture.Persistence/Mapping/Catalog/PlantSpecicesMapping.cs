@@ -9,7 +9,9 @@ namespace Agriculture.Persistence.Mapping.Catalog
     {
         public PlantSpecicesMapping()
         {
-            CreateMap<PlantSpecices, PlantSpecicesResponse>();
+            CreateMap<PlantSpecices, PlantSpecicesResponse>()
+                .ForMember(x => x.CategoryName, p => p.MapFrom(c => c.Category.Name));
+
             CreateMap<CreatePlantSpecicesRequest, PlantSpecices>();
             CreateMap<PlantSpecicesRecord, PlantSpecices>();
         }
