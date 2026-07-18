@@ -1,3 +1,4 @@
+using Agriculture.Application.Features.Authentication.Commands.Register;
 using Agriculture.Application.Models.Results;
 using Agriculture.Contract.DTOs.Authentication;
 
@@ -19,6 +20,10 @@ namespace Agriculture.Application.Services.Authentication
 
         Task<Result<object>> ResendVerificationAsync(
             ResendVerificationRequest request,
+            CancellationToken cancellationToken = default);
+
+        Task<Result<object>> LogoutAsync(
+            Guid publicUserId,
             CancellationToken cancellationToken = default);
     }
 }

@@ -8,6 +8,7 @@ namespace Agriculture.Domain.Repositories
         Task<IEnumerable<TEntity>> ToListAsync(ISpecification<TEntity> specification, CancellationToken cancellationToken = default);
         Task<TEntity?> FindAsync(ISpecification<TEntity> specification, CancellationToken cancellationToken = default);
         void Add(TEntity entity);
+        void AddRange(IEnumerable<TEntity> entities);
         void Update(TEntity entity);
     }
 }

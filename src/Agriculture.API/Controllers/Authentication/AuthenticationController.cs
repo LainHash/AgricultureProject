@@ -1,10 +1,14 @@
 using Agriculture.Application.Features.Authentication.Commands.Login;
+using Agriculture.Application.Features.Authentication.Commands.Logout;
 using Agriculture.Application.Features.Authentication.Commands.Register;
 using Agriculture.Application.Features.Authentication.Commands.ResendVerification;
 using Agriculture.Application.Features.Authentication.Commands.VerifyEmail;
 using Agriculture.Contract.DTOs.Authentication;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace Agriculture.API.Controllers.Authentication
 {
@@ -55,6 +59,30 @@ namespace Agriculture.API.Controllers.Authentication
             CancellationToken cancellationToken)
         {
             var command = new ResendVerificationCommand(body);
+            var result = await _mediator.Send(command, cancellationToken);
+            return StatusCode(result.StatusCode, result);
+        }
+
+        [HttpPost("/logout")]
+        public async Task<IActionResult> Logout(CancellationToken cancellationToken)
+        {
+            //var sub = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
+            //if (!Guid.TryParse(sub, out var publicUserId))
+            //    return Unauthorized();
+
+            Guid? userId = null!;
+
+            if (User.Identity?.IsAuthenticated == true)
+            {
+                var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value
+                                   ?? User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
+                if (Guid.TryParse(userIdString, out Guid parsedId))
+                {
+                    userId = parsedId;
+                }
+            }
+
+            var command = new LogoutCommand(userId.Value);
             var result = await _mediator.Send(command, cancellationToken);
             return StatusCode(result.StatusCode, result);
         }

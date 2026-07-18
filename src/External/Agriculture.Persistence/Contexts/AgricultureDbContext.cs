@@ -1,6 +1,8 @@
 ﻿using Agriculture.Domain.Entites.Catalog;
 using Agriculture.Domain.Entites.Guest;
 using Agriculture.Domain.Entites.Identity;
+using Agriculture.Domain.Entites.Templates;
+using Agriculture.Domain.Entites.Territory;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -18,6 +20,11 @@ namespace Agriculture.Persistence.Contexts
         public DbSet<Role> Roles { get; set; } = null!;
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<Player> Players { get; set; } = null!;
+        public DbSet<Garden> Gardens { get; set; } = null!;
+        public DbSet<GardenPlot> GardenPlots { get; set; } = null!;
+
+        public DbSet<GardenTemplate> GardenTemplates { get; set; } = null!;
+        public DbSet<GardenPlotTemplate> GardenPlotTemplates { get; set; } = null!;
 
         // ── Model building ──────────────────────────────────────────────────
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -1,16 +1,21 @@
+using Agriculture.Application.Features.Authentication.Commands.Register;
 using Agriculture.Application.Models.Messages;
 using Agriculture.Application.Models.Results;
 using Agriculture.Application.Services;
 using Agriculture.Application.Services.Authentication;
 using Agriculture.Application.Services.Emails;
+using Agriculture.Application.Services.Guest;
 using Agriculture.Contract.DTOs.Authentication;
 using Agriculture.Domain.Entites.Guest;
 using Agriculture.Domain.Entites.Identity;
+using Agriculture.Domain.Entites.Templates;
+using Agriculture.Domain.Entites.Territory;
 using Agriculture.Domain.Enums;
 using Agriculture.Domain.Repositories.Guest;
 using Agriculture.Domain.Repositories.Identity;
+using Agriculture.Domain.Repositories.Templates;
+using Agriculture.Domain.Repositories.Territory;
 using Agriculture.Domain.Specifications;
-using Agriculture.Persistence.Repositories.Identity;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using System.Net;
@@ -22,13 +27,13 @@ namespace Agriculture.Persistence.Services.Authentication
     {
         private readonly IUserRepository _userRepository;
         private readonly IRoleRepository _roleRepository;
-        private readonly IPlayerRepository _playerRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPasswordHasher _passwordHasher;
         private readonly IJwtProvider _jwtProvider;
         private readonly IEmailService _emailService;
         private readonly IMapper _mapper;
         private readonly ILogger<AuthenticationService> _logger;
+        private readonly IPlayerService _playerService;
 
         public AuthenticationService(
             IUserRepository userRepository,
@@ -37,9 +42,9 @@ namespace Agriculture.Persistence.Services.Authentication
             IJwtProvider jwtProvider,
             IRoleRepository roleRepository,
             IMapper mapper,
-            IPlayerRepository playerRepository,
             IEmailService emailService,
-            ILogger<AuthenticationService> logger)
+            ILogger<AuthenticationService> logger,
+            IPlayerService playerService)
         {
             _userRepository = userRepository;
             _unitOfWork = unitOfWork;
@@ -47,9 +52,9 @@ namespace Agriculture.Persistence.Services.Authentication
             _jwtProvider = jwtProvider;
             _roleRepository = roleRepository;
             _mapper = mapper;
-            _playerRepository = playerRepository;
             _emailService = emailService;
             _logger = logger;
+            _playerService = playerService;
         }
 
         public async Task<Result<object>> RegisterAsync(
@@ -85,10 +90,7 @@ namespace Agriculture.Persistence.Services.Authentication
 
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-                var player = Player.Create(user.Id);
-                _playerRepository.Add(player);
-
-                await _unitOfWork.SaveChangesAsync(cancellationToken);
+                await _playerService.InitializeAsync(user.Id, cancellationToken);
 
                 await transaction.CommitAsync(cancellationToken);
 
@@ -157,7 +159,7 @@ namespace Agriculture.Persistence.Services.Authentication
             CancellationToken cancellationToken = default)
         {
             var user = await _userRepository.FindAsync(request.Email, cancellationToken);
-            if (user == null || !_passwordHasher.VerifyPassword(request.Password, user.PasswordHash))
+            if (user is null || !_passwordHasher.VerifyPassword(request.Password, user.PasswordHash))
             {
                 return Result<AuthenticationResponse>
                     .Fail("Incorrect email or password.", HttpStatusCode.Unauthorized);
@@ -181,6 +183,8 @@ namespace Agriculture.Persistence.Services.Authentication
                 Email = user.Email,
                 Token = token
             };
+
+            await _playerService.LoginAsync(user.Id, cancellationToken);
 
             return Result<AuthenticationResponse>
                 .Succeed(response, "Login successfully.", HttpStatusCode.Accepted);
@@ -212,14 +216,32 @@ namespace Agriculture.Persistence.Services.Authentication
             {
                 var message = new EmailMessage(user.Username, newCode);
                 await _emailService.SendEmailAsync(user.Email, message, cancellationToken);
+
+                return Result<object>
+                .Succeed(default, "Verification email resent. Please check your inbox.", HttpStatusCode.OK);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Resend verification email failed. Email: {Email}", user.Email);
+                throw;
+            }
+        }
+
+        public async Task<Result<object>> LogoutAsync(
+            Guid publicUserId,
+            CancellationToken cancellationToken = default)
+        {
+            var user = await _userRepository.FindAsync(publicUserId, cancellationToken);
+            if (user is null)
+            {
+                return Result<object>
+                    .Fail(Error<User>.NotFound, HttpStatusCode.NotFound);
             }
 
+            await _playerService.LogoutAsync(user.Id, cancellationToken);
+
             return Result<object>
-                .Succeed(default, "Verification email resent. Please check your inbox.", HttpStatusCode.OK);
+                .Succeed(default, "Logout successfully.", HttpStatusCode.OK);
         }
 
         private string GenerateCode()

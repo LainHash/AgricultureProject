@@ -1,16 +1,22 @@
-﻿using Agriculture.Application.Services;
+using Agriculture.Application.Services;
+using Agriculture.Application.Services.Authentication;
 using Agriculture.Application.Services.Catalog;
 using Agriculture.Application.Services.Guest;
 using Agriculture.Application.Services.Identity;
+using Agriculture.Application.Services.Templates;
+using Agriculture.Application.Services.Territory;
 using Agriculture.Domain.Repositories;
 using Agriculture.Persistence.Contexts;
 using Agriculture.Persistence.Repositories;
 using Agriculture.Persistence.Repositories.Catalog;
 using Agriculture.Persistence.Seeders;
 using Agriculture.Persistence.Services;
+using Agriculture.Persistence.Services.Authentication;
 using Agriculture.Persistence.Services.Catalog;
 using Agriculture.Persistence.Services.Guest;
 using Agriculture.Persistence.Services.Identity;
+using Agriculture.Persistence.Services.Templates;
+using Agriculture.Persistence.Services.Territory;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -70,11 +76,14 @@ namespace Agriculture.Persistence
             services.AddAutoMapper(cfg => cfg.AddMaps(typeof(DependencyInjection).Assembly));
 
             // ── Services ─────────────────────────────────────────────────────
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IPlantSpecicesService, PlantSpecicesService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IPlayerService, PlayerService>();
             services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<IGardenService, GardenService>();
+            services.AddScoped<IGardenTemplateService, GardenTemplateService>();
 
             return services;
         }
