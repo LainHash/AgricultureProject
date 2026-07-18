@@ -1,5 +1,7 @@
-﻿using Agriculture.Application.Features.Territory.Gardens.Queries.GetAll;
+﻿using Agriculture.Application.Features.Territory.Gardens.Commands.AddPlot;
+using Agriculture.Application.Features.Territory.Gardens.Queries.GetAll;
 using Agriculture.Application.Features.Territory.Gardens.Queries.GetById;
+using Agriculture.Contract.DTOs.Territory.GardenPlots;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,6 +34,17 @@ namespace Agriculture.API.Controllers.Territory
         {
             var query = new GetGardenByIdQuery(id);
             var result = await _mediator.Send(query, cancellationToken);
+            return StatusCode(result.StatusCode, result);
+        }
+
+        [HttpPost("{id}/add-plots")]
+        public async Task<IActionResult> AddPlot(
+            [FromRoute] Guid id,
+            [FromBody] IEnumerable<AddGardenPlotRequest> body,
+            CancellationToken cancellationToken)
+        {
+            var command = new AddGardenPlotsCommand(id, body);
+            var result = await _mediator.Send(command, cancellationToken);
             return StatusCode(result.StatusCode, result);
         }
     }
