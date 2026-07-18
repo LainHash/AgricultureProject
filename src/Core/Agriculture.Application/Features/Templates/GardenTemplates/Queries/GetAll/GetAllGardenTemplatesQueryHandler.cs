@@ -3,7 +3,7 @@ using Agriculture.Application.Services.Templates;
 using Agriculture.Contract.DTOs.Templates.GardenTemplates;
 using MediatR;
 
-namespace Agriculture.Application.Features.Templates.GardenTemplates.GetAll
+namespace Agriculture.Application.Features.Templates.GardenTemplates.Queries.GetAll
 {
     internal class GetAllGardenTemplatesQueryHandler
         : IRequestHandler<GetAllGardenTemplatesQuery, Result<IEnumerable<GardenTemplateResponse>>>

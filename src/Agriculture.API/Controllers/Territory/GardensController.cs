@@ -1,5 +1,5 @@
-﻿using Agriculture.Application.Features.Territory.Gardens.GetAll;
-using Agriculture.Application.Features.Territory.Gardens.GetById;
+﻿using Agriculture.Application.Features.Territory.Gardens.Queries.GetAll;
+using Agriculture.Application.Features.Territory.Gardens.Queries.GetById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

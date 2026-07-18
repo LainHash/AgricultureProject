@@ -1,7 +1,7 @@
 using Agriculture.Domain.Entites.Templates;
 using Agriculture.Domain.Specifications;
 
-namespace Agriculture.Application.Features.Templates.GardenTemplates.GetAll
+namespace Agriculture.Application.Features.Templates.GardenTemplates.Queries.GetAll
 {
     public class GetAllGardenTemplatesSpecification
         : BaseSpecification<GardenTemplate>

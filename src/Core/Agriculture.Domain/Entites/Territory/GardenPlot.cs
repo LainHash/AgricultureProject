@@ -32,6 +32,20 @@ namespace Agriculture.Domain.Entites.Territory
             GardenId = gardenId;
         }
 
+        public GardenPlot(GardenPlot plot)
+        {
+            Row = plot.Row;
+            Column = plot.Column;
+            SoilType = plot.SoilType;
+            Status = nameof(GardenPlotStatus.Empty);
+        }
+
+        public GardenPlot(GardenPlot plot, int gardenId)
+            : this(plot)
+        {
+            GardenId = gardenId;
+        }
+
         public static IEnumerable<GardenPlot> HomeGardenPlots(int gardenId)
         {
             return [

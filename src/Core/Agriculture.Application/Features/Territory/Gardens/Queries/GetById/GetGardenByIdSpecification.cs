@@ -2,7 +2,7 @@
 using Agriculture.Domain.Specifications;
 using MediatR;
 
-namespace Agriculture.Application.Features.Territory.Gardens.GetById
+namespace Agriculture.Application.Features.Territory.Gardens.Queries.GetById
 {
     public class GetGardenByIdSpecification
         : BaseSpecification<Garden>

@@ -1,5 +1,5 @@
-using Agriculture.Application.Features.Templates.GardenTemplates.GetAll;
-using Agriculture.Application.Features.Templates.GardenTemplates.GetById;
+using Agriculture.Application.Features.Templates.GardenTemplates.Queries.GetAll;
+using Agriculture.Application.Features.Templates.GardenTemplates.Queries.GetById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,5 +1,5 @@
-using Agriculture.Application.Features.Templates.GardenTemplates.GetAll;
-using Agriculture.Application.Features.Templates.GardenTemplates.GetById;
+using Agriculture.Application.Features.Templates.GardenTemplates.Queries.GetAll;
+using Agriculture.Application.Features.Templates.GardenTemplates.Queries.GetById;
 using Agriculture.Application.Models.Messages;
 using Agriculture.Application.Models.Results;
 using Agriculture.Application.Services.Templates;

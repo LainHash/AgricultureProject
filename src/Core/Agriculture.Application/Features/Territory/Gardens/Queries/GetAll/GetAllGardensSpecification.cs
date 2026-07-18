@@ -1,7 +1,7 @@
 ﻿using Agriculture.Domain.Entites.Territory;
 using Agriculture.Domain.Specifications;
 
-namespace Agriculture.Application.Features.Territory.Gardens.GetAll
+namespace Agriculture.Application.Features.Territory.Gardens.Queries.GetAll
 {
     public class GetAllGardensSpecification
         : BaseSpecification<Garden>

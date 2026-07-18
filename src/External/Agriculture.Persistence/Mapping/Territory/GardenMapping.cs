@@ -11,6 +11,8 @@ namespace Agriculture.Persistence.Mapping.Territory
         {
             CreateMap<Garden, GardenResponse>();
             CreateMap<GardenPlot, GardenPlotResponse>();
+
+            CreateMap<AddGardenPlotRequest, GardenPlot>();
         }
     }
 }

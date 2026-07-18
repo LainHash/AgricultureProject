@@ -1,7 +1,7 @@
 using Agriculture.Domain.Entites.Templates;
 using Agriculture.Domain.Specifications;
 
-namespace Agriculture.Application.Features.Templates.GardenTemplates.GetById
+namespace Agriculture.Application.Features.Templates.GardenTemplates.Queries.GetById
 {
     public class GetGardenTemplateByIdSpecification
         : BaseSpecification<GardenTemplate>
