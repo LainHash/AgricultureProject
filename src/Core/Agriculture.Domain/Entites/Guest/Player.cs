@@ -14,6 +14,8 @@ namespace Agriculture.Domain.Entites.Guest
         public int Gold { get; private set; }
         public int Gem { get; private set; }
         public decimal Energy { get; private set; }
+
+        public bool IsOnline { get; private set; }
         public DateTime LastLoginAt { get; private set; }
 
         public virtual User User { get; private set; } = null!;
@@ -33,6 +35,17 @@ namespace Agriculture.Domain.Entites.Guest
             {
                 UserId = userId
             };
+        }
+
+        public void MarkAsOnline()
+        {
+            IsOnline = true;
+        }
+
+        public void MarkAsOffline()
+        {
+            IsOnline = false;
+            LastLoginAt = DateTime.UtcNow;
         }
     }
 }

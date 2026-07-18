@@ -1,3 +1,4 @@
+using Agriculture.Application.Features.Authentication.Commands.Register;
 using Agriculture.Application.Models.Messages;
 using Agriculture.Application.Models.Results;
 using Agriculture.Application.Services;
@@ -6,11 +7,14 @@ using Agriculture.Application.Services.Emails;
 using Agriculture.Contract.DTOs.Authentication;
 using Agriculture.Domain.Entites.Guest;
 using Agriculture.Domain.Entites.Identity;
+using Agriculture.Domain.Entites.Templates;
 using Agriculture.Domain.Entites.Territory;
 using Agriculture.Domain.Enums;
 using Agriculture.Domain.Repositories.Guest;
 using Agriculture.Domain.Repositories.Identity;
+using Agriculture.Domain.Repositories.Templates;
 using Agriculture.Domain.Repositories.Territory;
+using Agriculture.Domain.Specifications;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using System.Net;
@@ -25,6 +29,7 @@ namespace Agriculture.Persistence.Services.Authentication
         private readonly IPlayerRepository _playerRepository;
         private readonly IGardenRepository _gardenRepository;
         private readonly IGardenPlotRepository _gardenPlotRepository;
+        private readonly IGardenTemplateRepository _gardenTemplateRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPasswordHasher _passwordHasher;
         private readonly IJwtProvider _jwtProvider;
@@ -43,7 +48,8 @@ namespace Agriculture.Persistence.Services.Authentication
             IEmailService emailService,
             ILogger<AuthenticationService> logger,
             IGardenRepository gardenRepository,
-            IGardenPlotRepository gardenPlotRepository)
+            IGardenPlotRepository gardenPlotRepository,
+            IGardenTemplateRepository gardenTemplateRepository)
         {
             _userRepository = userRepository;
             _unitOfWork = unitOfWork;
@@ -56,10 +62,12 @@ namespace Agriculture.Persistence.Services.Authentication
             _logger = logger;
             _gardenRepository = gardenRepository;
             _gardenPlotRepository = gardenPlotRepository;
+            _gardenTemplateRepository = gardenTemplateRepository;
         }
 
         public async Task<Result<object>> RegisterAsync(
             RegisterRequest request,
+            GetHomeGardenTemplateSpecification getHomeGardenTemplateSpecification,
             CancellationToken cancellationToken = default)
         {
             await using var transaction = await _unitOfWork.BeginTransactionAsync(cancellationToken);
@@ -96,12 +104,18 @@ namespace Agriculture.Persistence.Services.Authentication
 
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-                var garden = Garden.UnlockHomeGarden();
+                var homeGardenTemplate = await _gardenTemplateRepository.FindAsync(getHomeGardenTemplateSpecification, cancellationToken);
+                if (homeGardenTemplate is null)
+                {
+                    return Result<object>.Fail("Home garden template not found.", HttpStatusCode.InternalServerError);
+                }
+
+                var garden = Garden.FromTemplate(homeGardenTemplate, player.Id);
                 _gardenRepository.Add(garden);
 
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-                var plots = GardenPlot.HomeGardenPlots();
+                var plots = GardenPlot.FromTemplates(homeGardenTemplate.GardenPlotTemplates, garden.Id);
                 _gardenPlotRepository.AddRange(plots);
 
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
@@ -173,7 +187,7 @@ namespace Agriculture.Persistence.Services.Authentication
             CancellationToken cancellationToken = default)
         {
             var user = await _userRepository.FindAsync(request.Email, cancellationToken);
-            if (user == null || !_passwordHasher.VerifyPassword(request.Password, user.PasswordHash))
+            if (user is null || !_passwordHasher.VerifyPassword(request.Password, user.PasswordHash))
             {
                 return Result<AuthenticationResponse>
                     .Fail("Incorrect email or password.", HttpStatusCode.Unauthorized);
@@ -197,6 +211,17 @@ namespace Agriculture.Persistence.Services.Authentication
                 Email = user.Email,
                 Token = token
             };
+
+            var player = await _playerRepository.FindByUserAsync(user.Id, cancellationToken);
+            if(player is null)
+            {
+                return Result<AuthenticationResponse>
+                    .Fail(Error<Player>.NotFound, HttpStatusCode.InternalServerError);
+            }
+            player.MarkAsOnline();
+            _playerRepository.Update(player);
+
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result<AuthenticationResponse>
                 .Succeed(response, "Login successfully.", HttpStatusCode.Accepted);

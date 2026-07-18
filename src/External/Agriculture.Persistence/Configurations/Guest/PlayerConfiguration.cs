@@ -43,6 +43,10 @@ namespace Agriculture.Persistence.Configurations.Guest
                 .HasDefaultValue(360)
                 .IsRequired();
 
+            builder.Property(x => x.IsOnline)
+                .HasDefaultValue(false)
+                .IsRequired();
+
             builder.Property(x => x.LastLoginAt)
                 .IsRequired();
         }

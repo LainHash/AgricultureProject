@@ -30,9 +30,18 @@ namespace Agriculture.Domain.Entites.Territory
         {
         }
 
-        public static Garden UnlockHomeGarden()
+        public Garden(GardenTemplate template, int playerId)
+            : this(template)
         {
-            return new Garden();
+            PlayerId = playerId;
         }
+
+        public static Garden FromTemplate(GardenTemplate template, int playerId)
+        {
+            var garden = new Garden(template, playerId);
+            return garden;
+        }
+
+
     }
 }

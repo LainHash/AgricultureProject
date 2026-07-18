@@ -52,9 +52,15 @@ namespace Agriculture.Domain.Entites.Territory
         {
         }
 
-        public static IEnumerable<GardenPlot> HomeGardenPlots()
+        public GardenPlot(GardenPlotTemplate template, int gardenId)
+            : this(template)
         {
-            return [new GardenPlot()];
+            GardenId = gardenId;
+        }
+
+        public static IEnumerable<GardenPlot> FromTemplates(IEnumerable<GardenPlotTemplate> templates, int gardenId)
+        {
+            return templates.Select(x => new GardenPlot(x, gardenId));
         }
     }
 }

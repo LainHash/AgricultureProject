@@ -16,7 +16,8 @@ namespace Agriculture.Application.Features.Authentication.Commands.Register
 
         public async Task<Result<object>> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
-            var response = await _authenticationService.RegisterAsync(request.Body, cancellationToken);
+            var getHomeGardenTemplateSpecification = new GetHomeGardenTemplateSpecification();
+            var response = await _authenticationService.RegisterAsync(request.Body, getHomeGardenTemplateSpecification, cancellationToken);
             return response;
         }
     }

@@ -1,3 +1,4 @@
+using Agriculture.Application.Features.Authentication.Commands.Register;
 using Agriculture.Application.Models.Results;
 using Agriculture.Contract.DTOs.Authentication;
 
@@ -7,6 +8,7 @@ namespace Agriculture.Application.Services.Authentication
     {
         Task<Result<object>> RegisterAsync(
             RegisterRequest request,
+            GetHomeGardenTemplateSpecification getHomeGardenTemplateSpecification,
             CancellationToken cancellationToken = default);
 
         Task<Result<AuthenticationResponse>> LoginAsync(
