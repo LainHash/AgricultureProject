@@ -55,6 +55,15 @@ namespace Agriculture.Persistence.Configurations.Catalog
             builder.Property(x => x.TemperatureMax)
                 .IsRequired()
                 .HasColumnType("decimal(5,2)");
+
+            builder.Property(x => x.CategoryId)
+                .HasDefaultValue(1)
+                .IsRequired();
+
+            builder.HasMany(x => x.Plants)
+                .WithOne(x => x.PlantSpecices)
+                .HasForeignKey(x => x.PlantSpecicesId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -7,6 +7,6 @@ namespace Agriculture.Domain.Entites.Catalog
         public string Name { get; private set; } = string.Empty;
         public string? Description { get; private set; }
 
-        public ICollection<Plant> Plants { get; private set; } = [];
+        public ICollection<PlantSpecices> PlantSpecices { get; private set; } = [];
     }
 }

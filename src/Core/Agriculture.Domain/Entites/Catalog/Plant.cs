@@ -5,7 +5,6 @@ namespace Agriculture.Domain.Entites.Catalog
 {
     public class Plant : SoftDeletableEntity
     {
-        public int CategoryId { get; private set; }
         public int PlantSpecicesId { get; private set; }
         public int GardenPlotId { get; private set; }
 
@@ -19,7 +18,6 @@ namespace Agriculture.Domain.Entites.Catalog
 
         public bool IsDead { get; private set; }
 
-        public Category Category { get; private set; } = null!;
         public PlantSpecices PlantSpecices { get; private set; } = null!;
         public GardenPlot GardenPlot { get; private set; } = null!;
     }
