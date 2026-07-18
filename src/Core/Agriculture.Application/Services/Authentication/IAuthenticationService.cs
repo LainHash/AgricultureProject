@@ -8,7 +8,6 @@ namespace Agriculture.Application.Services.Authentication
     {
         Task<Result<object>> RegisterAsync(
             RegisterRequest request,
-            GetHomeGardenTemplateSpecification getHomeGardenTemplateSpecification,
             CancellationToken cancellationToken = default);
 
         Task<Result<AuthenticationResponse>> LoginAsync(

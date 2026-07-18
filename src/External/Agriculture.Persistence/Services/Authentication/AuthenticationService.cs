@@ -4,6 +4,7 @@ using Agriculture.Application.Models.Results;
 using Agriculture.Application.Services;
 using Agriculture.Application.Services.Authentication;
 using Agriculture.Application.Services.Emails;
+using Agriculture.Application.Services.Guest;
 using Agriculture.Contract.DTOs.Authentication;
 using Agriculture.Domain.Entites.Guest;
 using Agriculture.Domain.Entites.Identity;
@@ -27,15 +28,13 @@ namespace Agriculture.Persistence.Services.Authentication
         private readonly IUserRepository _userRepository;
         private readonly IRoleRepository _roleRepository;
         private readonly IPlayerRepository _playerRepository;
-        private readonly IGardenRepository _gardenRepository;
-        private readonly IGardenPlotRepository _gardenPlotRepository;
-        private readonly IGardenTemplateRepository _gardenTemplateRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPasswordHasher _passwordHasher;
         private readonly IJwtProvider _jwtProvider;
         private readonly IEmailService _emailService;
         private readonly IMapper _mapper;
         private readonly ILogger<AuthenticationService> _logger;
+        private readonly IPlayerInitializationService _playerInitializationService;
 
         public AuthenticationService(
             IUserRepository userRepository,
@@ -47,9 +46,7 @@ namespace Agriculture.Persistence.Services.Authentication
             IPlayerRepository playerRepository,
             IEmailService emailService,
             ILogger<AuthenticationService> logger,
-            IGardenRepository gardenRepository,
-            IGardenPlotRepository gardenPlotRepository,
-            IGardenTemplateRepository gardenTemplateRepository)
+            IPlayerInitializationService playerInitializationService)
         {
             _userRepository = userRepository;
             _unitOfWork = unitOfWork;
@@ -60,14 +57,11 @@ namespace Agriculture.Persistence.Services.Authentication
             _playerRepository = playerRepository;
             _emailService = emailService;
             _logger = logger;
-            _gardenRepository = gardenRepository;
-            _gardenPlotRepository = gardenPlotRepository;
-            _gardenTemplateRepository = gardenTemplateRepository;
+            _playerInitializationService = playerInitializationService;
         }
 
         public async Task<Result<object>> RegisterAsync(
             RegisterRequest request,
-            GetHomeGardenTemplateSpecification getHomeGardenTemplateSpecification,
             CancellationToken cancellationToken = default)
         {
             await using var transaction = await _unitOfWork.BeginTransactionAsync(cancellationToken);
@@ -99,26 +93,7 @@ namespace Agriculture.Persistence.Services.Authentication
 
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-                var player = Player.Create(user.Id);
-                _playerRepository.Add(player);
-
-                await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-                var homeGardenTemplate = await _gardenTemplateRepository.FindAsync(getHomeGardenTemplateSpecification, cancellationToken);
-                if (homeGardenTemplate is null)
-                {
-                    return Result<object>.Fail("Home garden template not found.", HttpStatusCode.InternalServerError);
-                }
-
-                var garden = Garden.FromTemplate(homeGardenTemplate, player.Id);
-                _gardenRepository.Add(garden);
-
-                await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-                var plots = GardenPlot.FromTemplates(homeGardenTemplate.GardenPlotTemplates, garden.Id);
-                _gardenPlotRepository.AddRange(plots);
-
-                await _unitOfWork.SaveChangesAsync(cancellationToken);
+                await _playerInitializationService.InitializeAsync(user, cancellationToken);
 
                 await transaction.CommitAsync(cancellationToken);
 
