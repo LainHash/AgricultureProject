@@ -22,5 +22,9 @@ namespace Agriculture.Application.Services.Authentication
         Task<Result<object>> ResendVerificationAsync(
             ResendVerificationRequest request,
             CancellationToken cancellationToken = default);
+
+        Task<Result<object>> LogoutAsync(
+            Guid publicUserId,
+            CancellationToken cancellationToken = default);
     }
 }

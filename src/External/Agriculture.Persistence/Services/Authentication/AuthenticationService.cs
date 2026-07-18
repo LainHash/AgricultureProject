@@ -264,6 +264,34 @@ namespace Agriculture.Persistence.Services.Authentication
             }
         }
 
+        public async Task<Result<object>> LogoutAsync(
+            Guid publicUserId,
+            CancellationToken cancellationToken = default)
+        {
+            var user = await _userRepository.FindAsync(publicUserId, cancellationToken);
+            if (user is null)
+            {
+                return Result<object>
+                    .Fail(Error<User>.NotFound, HttpStatusCode.NotFound);
+            }
+
+            var player = await _playerRepository.FindByUserAsync(user.Id, cancellationToken);
+            if (player is null)
+            {
+                return Result<object>
+                    .Fail(Error<Player>.NotFound, HttpStatusCode.NotFound);
+            }
+
+            player.MarkAsOffline();
+
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            _logger.LogInformation("Player {PlayerId} (User: {UserId}) marked as offline.", player.PublicId, user.PublicId);
+
+            return Result<object>
+                .Succeed(default, "Logout successfully.", HttpStatusCode.OK);
+        }
+
         private string GenerateCode()
         {
             return RandomNumberGenerator.GetInt32(100000, 1000000).ToString();

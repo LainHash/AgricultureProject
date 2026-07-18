@@ -1,4 +1,4 @@
-﻿using Agriculture.Application.Services.Authentication;
+using Agriculture.Application.Services.Authentication;
 using Agriculture.Application.Services.Emails;
 using Agriculture.Application.Services.Storage;
 using Agriculture.Contract.Settings.Authentication;
@@ -51,6 +51,24 @@ namespace Agriculture.Infrastructure
                         ValidAudience = jwtSettings.Audience,
                         IssuerSigningKey = new SymmetricSecurityKey(
                             System.Text.Encoding.UTF8.GetBytes(jwtSettings.SecretKey))
+                    };
+                    options.Events = new Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerEvents
+                    {
+                        OnAuthenticationFailed = ctx =>
+                        {
+                            Console.WriteLine($"[JWT] Auth failed: {ctx.Exception.GetType().Name}: {ctx.Exception.Message}");
+                            return System.Threading.Tasks.Task.CompletedTask;
+                        },
+                        OnChallenge = ctx =>
+                        {
+                            Console.WriteLine($"[JWT] Challenge: error={ctx.Error}, desc={ctx.ErrorDescription}");
+                            return System.Threading.Tasks.Task.CompletedTask;
+                        },
+                        OnMessageReceived = ctx =>
+                        {
+                            Console.WriteLine($"[JWT] Token received: {(string.IsNullOrEmpty(ctx.Token) ? "NONE" : ctx.Token[..Math.Min(30, ctx.Token.Length)] + "...")}");
+                            return System.Threading.Tasks.Task.CompletedTask;
+                        }
                     };
                 });
             }
