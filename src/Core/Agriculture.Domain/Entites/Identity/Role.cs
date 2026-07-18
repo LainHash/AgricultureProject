@@ -7,6 +7,6 @@ namespace Agriculture.Domain.Entites.Identity
         public string Name { get; private set; } = string.Empty;
         public string? Description { get; private set; }
 
-        public virtual ICollection<User> Users { get; private set; } = [];
+        public ICollection<User> Users { get; private set; } = [];
     }
 }

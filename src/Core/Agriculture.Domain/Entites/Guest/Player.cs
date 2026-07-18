@@ -18,8 +18,8 @@ namespace Agriculture.Domain.Entites.Guest
         public bool IsOnline { get; private set; }
         public DateTime LastLoginAt { get; private set; }
 
-        public virtual User User { get; private set; } = null!;
-        public virtual ICollection<Garden> Gardens { get; private set; } = [];
+        public User User { get; private set; } = null!;
+        public ICollection<Garden> Gardens { get; private set; } = [];
     }
 
     public partial class Player

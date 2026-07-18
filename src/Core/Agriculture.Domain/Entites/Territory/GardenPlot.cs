@@ -12,7 +12,7 @@ namespace Agriculture.Domain.Entites.Territory
         public string SoilType { get; private set; } = string.Empty;
         public string Status { get; private set; } = string.Empty;
 
-        public virtual Garden Garden { get; private set; } = null!;
+        public Garden Garden { get; private set; } = null!;
     }
 
     public partial class GardenPlot

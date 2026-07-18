@@ -4,7 +4,9 @@ namespace Agriculture.Domain.Entites.Catalog
 {
     public class Category : SoftDeletableEntity
     {
-        public string Name { get; set; } = string.Empty;
-        public string? Description { get; set; }
+        public string Name { get; private set; } = string.Empty;
+        public string? Description { get; private set; }
+
+        public ICollection<Plant> Plants { get; private set; } = [];
     }
 }
