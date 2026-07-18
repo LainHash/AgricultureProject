@@ -1,5 +1,6 @@
 ﻿using Agriculture.Domain.Abstraction;
 using Agriculture.Domain.Entites.Guest;
+using Agriculture.Domain.Entites.Templates;
 
 namespace Agriculture.Domain.Entites.Territory
 {
@@ -24,13 +25,14 @@ namespace Agriculture.Domain.Entites.Territory
             Description = description;
         }
 
-        public static Garden UnlockHomeGarden(int playerId)
+        public Garden(GardenTemplate template)
+            : this(template.Name, template.Description)
         {
-            var garden = new Garden("Home Garden", "Small backyard garden for vegetables and herbs.")
-            {
-                PlayerId = playerId
-            };
-            return garden;
+        }
+
+        public static Garden UnlockHomeGarden()
+        {
+            return new Garden();
         }
     }
 }

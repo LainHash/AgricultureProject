@@ -96,12 +96,12 @@ namespace Agriculture.Persistence.Services.Authentication
 
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-                var garden = Garden.UnlockHomeGarden(player.Id);
+                var garden = Garden.UnlockHomeGarden();
                 _gardenRepository.Add(garden);
 
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-                var plots = GardenPlot.HomeGardenPlots(garden.Id);
+                var plots = GardenPlot.HomeGardenPlots();
                 _gardenPlotRepository.AddRange(plots);
 
                 await _unitOfWork.SaveChangesAsync(cancellationToken);

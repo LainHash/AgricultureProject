@@ -1,4 +1,5 @@
 ﻿using Agriculture.Domain.Abstraction;
+using Agriculture.Domain.Entites.Templates;
 using Agriculture.Domain.Enums;
 
 namespace Agriculture.Domain.Entites.Territory
@@ -46,14 +47,14 @@ namespace Agriculture.Domain.Entites.Territory
             GardenId = gardenId;
         }
 
-        public static IEnumerable<GardenPlot> HomeGardenPlots(int gardenId)
+        public GardenPlot(GardenPlotTemplate template)
+            : this(template.Row, template.Column, template.SoilType)
         {
-            return [
-                new GardenPlot(1, 1, "Loam"),
-                new GardenPlot(1, 2, "Loam"),
-                new GardenPlot(2, 1, "Sandy"),
-                new GardenPlot(2, 2, "Clay")
-                ];
+        }
+
+        public static IEnumerable<GardenPlot> HomeGardenPlots()
+        {
+            return [new GardenPlot()];
         }
     }
 }
