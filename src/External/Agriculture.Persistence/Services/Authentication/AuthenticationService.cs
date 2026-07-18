@@ -27,14 +27,13 @@ namespace Agriculture.Persistence.Services.Authentication
     {
         private readonly IUserRepository _userRepository;
         private readonly IRoleRepository _roleRepository;
-        private readonly IPlayerRepository _playerRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPasswordHasher _passwordHasher;
         private readonly IJwtProvider _jwtProvider;
         private readonly IEmailService _emailService;
         private readonly IMapper _mapper;
         private readonly ILogger<AuthenticationService> _logger;
-        private readonly IPlayerInitializationService _playerInitializationService;
+        private readonly IPlayerService _playerService;
 
         public AuthenticationService(
             IUserRepository userRepository,
@@ -43,10 +42,9 @@ namespace Agriculture.Persistence.Services.Authentication
             IJwtProvider jwtProvider,
             IRoleRepository roleRepository,
             IMapper mapper,
-            IPlayerRepository playerRepository,
             IEmailService emailService,
             ILogger<AuthenticationService> logger,
-            IPlayerInitializationService playerInitializationService)
+            IPlayerService playerService)
         {
             _userRepository = userRepository;
             _unitOfWork = unitOfWork;
@@ -54,10 +52,9 @@ namespace Agriculture.Persistence.Services.Authentication
             _jwtProvider = jwtProvider;
             _roleRepository = roleRepository;
             _mapper = mapper;
-            _playerRepository = playerRepository;
             _emailService = emailService;
             _logger = logger;
-            _playerInitializationService = playerInitializationService;
+            _playerService = playerService;
         }
 
         public async Task<Result<object>> RegisterAsync(
@@ -93,7 +90,7 @@ namespace Agriculture.Persistence.Services.Authentication
 
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-                await _playerInitializationService.InitializeAsync(user, cancellationToken);
+                await _playerService.InitializeAsync(user.Id, cancellationToken);
 
                 await transaction.CommitAsync(cancellationToken);
 
@@ -187,16 +184,7 @@ namespace Agriculture.Persistence.Services.Authentication
                 Token = token
             };
 
-            var player = await _playerRepository.FindByUserAsync(user.Id, cancellationToken);
-            if(player is null)
-            {
-                return Result<AuthenticationResponse>
-                    .Fail(Error<Player>.NotFound, HttpStatusCode.InternalServerError);
-            }
-            player.MarkAsOnline();
-            _playerRepository.Update(player);
-
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            await _playerService.LoginAsync(user.Id, cancellationToken);
 
             return Result<AuthenticationResponse>
                 .Succeed(response, "Login successfully.", HttpStatusCode.Accepted);
@@ -250,18 +238,7 @@ namespace Agriculture.Persistence.Services.Authentication
                     .Fail(Error<User>.NotFound, HttpStatusCode.NotFound);
             }
 
-            var player = await _playerRepository.FindByUserAsync(user.Id, cancellationToken);
-            if (player is null)
-            {
-                return Result<object>
-                    .Fail(Error<Player>.NotFound, HttpStatusCode.NotFound);
-            }
-
-            player.MarkAsOffline();
-
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-            _logger.LogInformation("Player {PlayerId} (User: {UserId}) marked as offline.", player.PublicId, user.PublicId);
+            await _playerService.LogoutAsync(user.Id, cancellationToken);
 
             return Result<object>
                 .Succeed(default, "Logout successfully.", HttpStatusCode.OK);
