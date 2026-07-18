@@ -1,8 +1,9 @@
-﻿using Agriculture.Application.Services;
+using Agriculture.Application.Services;
 using Agriculture.Application.Services.Authentication;
 using Agriculture.Application.Services.Catalog;
 using Agriculture.Application.Services.Guest;
 using Agriculture.Application.Services.Identity;
+using Agriculture.Application.Services.Templates;
 using Agriculture.Application.Services.Territory;
 using Agriculture.Domain.Repositories;
 using Agriculture.Persistence.Contexts;
@@ -14,6 +15,7 @@ using Agriculture.Persistence.Services.Authentication;
 using Agriculture.Persistence.Services.Catalog;
 using Agriculture.Persistence.Services.Guest;
 using Agriculture.Persistence.Services.Identity;
+using Agriculture.Persistence.Services.Templates;
 using Agriculture.Persistence.Services.Territory;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -81,6 +83,7 @@ namespace Agriculture.Persistence
             services.AddScoped<IPlayerService, PlayerService>();
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IGardenService, GardenService>();
+            services.AddScoped<IGardenTemplateService, GardenTemplateService>();
 
             return services;
         }

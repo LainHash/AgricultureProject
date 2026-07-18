@@ -1,11 +1,10 @@
-﻿namespace Agriculture.Contract.DTOs.Territory.GardenPlots
+namespace Agriculture.Contract.DTOs.Templates.GardenPlotTemplates
 {
-    public class GardenPlotResponse
+    public class GardenPlotTemplateResponse
     {
         public Guid PublicId { get; set; }
         public int Row { get; set; }
         public int Column { get; set; }
         public string SoilType { get; set; } = string.Empty;
-        public string Status { get; set; } = string.Empty;
     }
 }

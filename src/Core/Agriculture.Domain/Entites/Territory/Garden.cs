@@ -24,15 +24,13 @@ namespace Agriculture.Domain.Entites.Territory
             Description = description;
         }
 
-        public Garden(string name, string? description, int playerId) 
-            : this(name, description)
-        {
-            PlayerId = playerId;
-        }
-
         public static Garden UnlockHomeGarden(int playerId)
         {
-            return new Garden("Home Garden", "Small backyard garden for vegetables and herbs.", playerId);
+            var garden = new Garden("Home Garden", "Small backyard garden for vegetables and herbs.")
+            {
+                PlayerId = playerId
+            };
+            return garden;
         }
     }
 }
