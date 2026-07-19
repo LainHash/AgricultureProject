@@ -37,15 +37,5 @@ namespace Agriculture.API.Controllers.Catalog
             var result = await _mediator.Send(query, cancellationToken);
             return StatusCode(result.StatusCode, result);
         }
-
-        [HttpPost("planting")]
-        public async Task<IActionResult> Planting(
-            [FromBody] PlantRequest body,
-            CancellationToken cancellationToken)
-        {
-            var command = new PlantCommand(body);
-            var result = await _mediator.Send(command, cancellationToken);
-            return StatusCode(result.StatusCode, result);
-        }
     }
 }

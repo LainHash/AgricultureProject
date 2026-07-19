@@ -20,6 +20,7 @@
 
 	<ItemGroup>
 	  <Folder Include="Common\" />
+	  <Folder Include="Features\Catalog\Plants\Commands\" />
 	</ItemGroup>
 
 </Project>

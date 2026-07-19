@@ -15,9 +15,5 @@ namespace Agriculture.Application.Services.Catalog
         Task<Result<PlantResponse>> GetByIdAsync(
             GetPlantByIdSpecification specification,
             CancellationToken cancellationToken);
-
-        Task<Result<PlantResponse>> PlantAsync(
-            PlantSpecification specification,
-            CancellationToken cancellationToken);
     }
 }
