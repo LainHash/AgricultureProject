@@ -7,7 +7,6 @@ using Agriculture.Application.Services.Catalog;
 using Agriculture.Contract.DTOs.Catalog.Plants;
 using Agriculture.Domain.Entites.Catalog;
 using Agriculture.Domain.Repositories.Catalog;
-using Agriculture.Domain.Repositories.Territory;
 using AutoMapper;
 using System.Net;
 
@@ -29,35 +28,35 @@ namespace Agriculture.Persistence.Services.Catalog
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Result<IEnumerable<GardenPlotResponse>>> GetAllAsync(
+        public async Task<Result<IEnumerable<PlantResponse>>> GetAllAsync(
             GetAllPlantsSpecification specification,
             CancellationToken cancellationToken)
         {
             var plants = await _plantRepository.ToListAsync(specification, cancellationToken);
             if (!plants.Any())
             {
-                return Result<IEnumerable<GardenPlotResponse>>
+                return Result<IEnumerable<PlantResponse>>
                     .Fail(Error<Plant>.EmptyList);
             }
 
-            var response = _mapper.Map<IEnumerable<GardenPlotResponse>>(plants);
-            return Result<IEnumerable<GardenPlotResponse>>
+            var response = _mapper.Map<IEnumerable<PlantResponse>>(plants);
+            return Result<IEnumerable<PlantResponse>>
                 .Succeed(response, Success<Plant>.Retrieved);
         }
 
-        public async Task<Result<GardenPlotResponse>> GetByIdAsync(
+        public async Task<Result<PlantResponse>> GetByIdAsync(
             GetPlantByIdSpecification specification,
             CancellationToken cancellationToken)
         {
             var plant = await _plantRepository.FindAsync(specification, cancellationToken);
             if(plant is null)
             {
-                return Result<GardenPlotResponse>
+                return Result<PlantResponse>
                     .Fail(Error<Plant>.NotFound, HttpStatusCode.InternalServerError);
             }
 
-            var response = _mapper.Map<GardenPlotResponse>(plant);
-            return Result<GardenPlotResponse>
+            var response = _mapper.Map<PlantResponse>(plant);
+            return Result<PlantResponse>
                 .Succeed(response, Success<Plant>.Retrieved);
         }
     }

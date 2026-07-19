@@ -10,6 +10,6 @@ namespace Agriculture.Contract.DTOs.Territory.GardenPlots
         public string SoilType { get; set; } = string.Empty;
         public string Status { get; set; } = string.Empty;
 
-        public Catalog.Plants.GardenPlotResponse? Plant { get; set; }
+        public PlantResponse? Plant { get; set; }
     }
 }

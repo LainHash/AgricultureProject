@@ -7,11 +7,11 @@ namespace Agriculture.Application.Services.Catalog
 {
     public interface IPlantService
     {
-        Task<Result<IEnumerable<GardenPlotResponse>>> GetAllAsync(
+        Task<Result<IEnumerable<PlantResponse>>> GetAllAsync(
             GetAllPlantsSpecification specification,
             CancellationToken cancellationToken);
 
-        Task<Result<GardenPlotResponse>> GetByIdAsync(
+        Task<Result<PlantResponse>> GetByIdAsync(
             GetPlantByIdSpecification specification,
             CancellationToken cancellationToken);
     }

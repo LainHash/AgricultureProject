@@ -63,5 +63,10 @@ namespace Agriculture.Domain.Entites.Territory
         {
             return templates.Select(x => new GardenPlot(x, gardenId));
         }
+
+        public void SetOccupied()
+        {
+            Status = nameof(GardenPlotStatus.Occupied);
+        }
     }
 }

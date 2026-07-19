@@ -33,6 +33,7 @@ namespace Agriculture.Domain.Entites.Catalog
         }
 
         public Plant(int specicesId, int plotId)
+            : this()
         {
             PlantSpecicesId = specicesId;
             GardenPlotId = plotId;

@@ -1,9 +1,8 @@
 ﻿using Agriculture.Contract.DTOs.Catalog.PlantSpecices;
-using Agriculture.Contract.DTOs.Territory.GardenPlots;
 
 namespace Agriculture.Contract.DTOs.Catalog.Plants
 {
-    public class GardenPlotResponse
+    public class PlantResponse
     {
         public Guid PublicId { get; set; }
         public DateTime PlantAt { get; set; }

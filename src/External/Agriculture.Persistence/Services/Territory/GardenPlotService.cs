@@ -4,6 +4,7 @@ using Agriculture.Application.Models.Results;
 using Agriculture.Application.Services;
 using Agriculture.Application.Services.Territory;
 using Agriculture.Contract.DTOs.Catalog.Plants;
+using Agriculture.Contract.DTOs.Territory.GardenPlots;
 using Agriculture.Domain.Entites.Catalog;
 using Agriculture.Domain.Entites.Territory;
 using Agriculture.Domain.Repositories.Catalog;
@@ -60,11 +61,16 @@ namespace Agriculture.Persistence.Services.Territory
             }
 
             var plant = new Plant(specices.Id, plot.Id);
+            plant.SetExpectedHarvestAt(specices.HarvestDays);
             _plantRepository.Add(plant);
+
+            plot.SetOccupied();
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            var response = _mapper.Map<GardenPlotResponse>(plot);
+            var plantedPlot = await _gardenPlotRepository.FindAsync(specification, cancellationToken);
+
+            var response = _mapper.Map<GardenPlotResponse>(plantedPlot);
             return Result<GardenPlotResponse>
                 .Succeed(response, Success<Plant>.Planted);
         }

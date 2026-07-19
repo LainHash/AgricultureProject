@@ -5,7 +5,7 @@ using MediatR;
 namespace Agriculture.Application.Features.Catalog.Plants.Queries.GetById
 {
     public record GetPlantByIdQuery(Guid Id)
-        : IRequest<Result<GardenPlotResponse>>
+        : IRequest<Result<PlantResponse>>
     {
     }
 }

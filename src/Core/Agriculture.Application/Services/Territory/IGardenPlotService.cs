@@ -1,6 +1,6 @@
 ﻿using Agriculture.Application.Features.Territory.GardenPlots.Commands.Planting;
 using Agriculture.Application.Models.Results;
-using Agriculture.Contract.DTOs.Catalog.Plants;
+using Agriculture.Contract.DTOs.Territory.GardenPlots;
 
 namespace Agriculture.Application.Services.Territory
 {
