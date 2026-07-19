@@ -14,7 +14,7 @@ namespace Agriculture.Domain.Entites.Territory
         public string Status { get; private set; } = string.Empty;
 
         public Garden Garden { get; private set; } = null!;
-        public Plant Plant { get; private set; } = null!;
+        public Plant? Plant { get; private set; }
     }
 
     public partial class GardenPlot

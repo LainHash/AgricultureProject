@@ -1,10 +1,7 @@
-﻿using Agriculture.Application.Features.Catalog.Plants.Commands.Planting;
-using Agriculture.Application.Features.Catalog.Plants.Queries.GetAll;
+﻿using Agriculture.Application.Features.Catalog.Plants.Queries.GetAll;
 using Agriculture.Application.Features.Catalog.Plants.Queries.GetById;
-using Agriculture.Contract.DTOs.Catalog.Plants;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Agriculture.API.Controllers.Catalog
 {

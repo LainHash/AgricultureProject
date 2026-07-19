@@ -29,35 +29,35 @@ namespace Agriculture.Persistence.Services.Catalog
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Result<IEnumerable<PlantResponse>>> GetAllAsync(
+        public async Task<Result<IEnumerable<GardenPlotResponse>>> GetAllAsync(
             GetAllPlantsSpecification specification,
             CancellationToken cancellationToken)
         {
             var plants = await _plantRepository.ToListAsync(specification, cancellationToken);
             if (!plants.Any())
             {
-                return Result<IEnumerable<PlantResponse>>
+                return Result<IEnumerable<GardenPlotResponse>>
                     .Fail(Error<Plant>.EmptyList);
             }
 
-            var response = _mapper.Map<IEnumerable<PlantResponse>>(plants);
-            return Result<IEnumerable<PlantResponse>>
+            var response = _mapper.Map<IEnumerable<GardenPlotResponse>>(plants);
+            return Result<IEnumerable<GardenPlotResponse>>
                 .Succeed(response, Success<Plant>.Retrieved);
         }
 
-        public async Task<Result<PlantResponse>> GetByIdAsync(
+        public async Task<Result<GardenPlotResponse>> GetByIdAsync(
             GetPlantByIdSpecification specification,
             CancellationToken cancellationToken)
         {
             var plant = await _plantRepository.FindAsync(specification, cancellationToken);
             if(plant is null)
             {
-                return Result<PlantResponse>
+                return Result<GardenPlotResponse>
                     .Fail(Error<Plant>.NotFound, HttpStatusCode.InternalServerError);
             }
 
-            var response = _mapper.Map<PlantResponse>(plant);
-            return Result<PlantResponse>
+            var response = _mapper.Map<GardenPlotResponse>(plant);
+            return Result<GardenPlotResponse>
                 .Succeed(response, Success<Plant>.Retrieved);
         }
     }

@@ -88,6 +88,7 @@ namespace Agriculture.Persistence
 
             services.AddScoped<IGardenService, GardenService>();
             services.AddScoped<IGardenTemplateService, GardenTemplateService>();
+            services.AddScoped<IGardenPlotService, GardenPlotService>();
 
             return services;
         }

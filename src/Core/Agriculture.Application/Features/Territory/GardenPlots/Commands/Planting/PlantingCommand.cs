@@ -2,9 +2,9 @@
 using Agriculture.Contract.DTOs.Catalog.Plants;
 using MediatR;
 
-namespace Agriculture.Application.Features.Catalog.Plants.Queries.GetById
+namespace Agriculture.Application.Features.Territory.GardenPlots.Commands.Planting
 {
-    public record GetPlantByIdQuery(Guid Id)
+    public record PlantingCommand(Guid PlotId, Guid SpecicesId)
         : IRequest<Result<GardenPlotResponse>>
     {
     }
