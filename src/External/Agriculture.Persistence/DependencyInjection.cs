@@ -78,10 +78,14 @@ namespace Agriculture.Persistence
             // ── Services ─────────────────────────────────────────────────────
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             services.AddScoped<IPlantSpecicesService, PlantSpecicesService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IPlantService, PlantService>();
+
             services.AddScoped<IPlayerService, PlayerService>();
             services.AddScoped<IRoleService, RoleService>();
+
             services.AddScoped<IGardenService, GardenService>();
             services.AddScoped<IGardenTemplateService, GardenTemplateService>();
 
