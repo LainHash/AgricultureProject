@@ -49,5 +49,10 @@ namespace Agriculture.Persistence.Repositories
         {
             Entity.Update(entity);
         }
+
+        public void Remove(TEntity entity)
+        {
+            Entity.Remove(entity);
+        }
     }
 }

@@ -1,5 +1,6 @@
 using Agriculture.Persistence.Contexts;
 using Agriculture.Persistence.Seeders.Catalog;
+using Agriculture.Persistence.Seeders.Identity;
 using Agriculture.Persistence.Seeders.Templates;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -18,6 +19,7 @@ namespace Agriculture.Persistence.Seeders
 
         public async Task SeedAllAsync()
         {
+            await SeedAsync<RoleSeeder>(_context);
             await SeedAsync<CategorySeeder>(_context);
             await SeedAsync<PlantSpecicesSeeder>(_context);
             await SeedAsync<GardenTemplateSeeder>(_context);

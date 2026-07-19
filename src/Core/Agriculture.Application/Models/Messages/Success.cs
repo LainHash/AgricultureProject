@@ -12,5 +12,7 @@
 
         public readonly static string Uploaded = $"{typeof(TEntity).Name} uploaded successfully.";
         public readonly static string Added = $"{typeof(TEntity).Name} added successfully.";
+
+        public readonly static string Planted = $"{typeof(TEntity).Name} planted successfully.";
     }
 }

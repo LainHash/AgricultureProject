@@ -14,7 +14,7 @@ namespace Agriculture.Domain.Entites.Territory
         public string Status { get; private set; } = string.Empty;
 
         public Garden Garden { get; private set; } = null!;
-        public Plant Plant { get; private set; } = null!;
+        public Plant? Plant { get; private set; }
     }
 
     public partial class GardenPlot
@@ -62,6 +62,16 @@ namespace Agriculture.Domain.Entites.Territory
             int gardenId)
         {
             return templates.Select(x => new GardenPlot(x, gardenId));
+        }
+
+        public void SetOccupied()
+        {
+            Status = nameof(GardenPlotStatus.Occupied);
+        }
+
+        public void SetEmpty()
+        {
+            Status = nameof(GardenPlotStatus.Empty);
         }
     }
 }

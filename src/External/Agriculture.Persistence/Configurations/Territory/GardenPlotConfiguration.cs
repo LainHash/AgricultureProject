@@ -1,5 +1,7 @@
-﻿using Agriculture.Domain.Entites.Territory;
+﻿using Agriculture.Domain.Entites.Catalog;
+using Agriculture.Domain.Entites.Territory;
 using Agriculture.Domain.Enums;
+using CloudinaryDotNet.Actions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -37,6 +39,11 @@ namespace Agriculture.Persistence.Configurations.Territory
 
             builder.HasIndex(x => new { x.GardenId, x.Row, x.Column })
                 .IsUnique();
+
+            builder.HasOne(x => x.Plant)
+                .WithOne(x => x.GardenPlot)
+                .HasForeignKey<Plant>(x => x.GardenPlotId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
