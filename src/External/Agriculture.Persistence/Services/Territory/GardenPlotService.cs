@@ -1,9 +1,9 @@
 ﻿using Agriculture.Application.Features.Territory.GardenPlots.Commands.Planting;
+using Agriculture.Application.Features.Territory.GardenPlots.Commands.RemovePlant;
 using Agriculture.Application.Models.Messages;
 using Agriculture.Application.Models.Results;
 using Agriculture.Application.Services;
 using Agriculture.Application.Services.Territory;
-using Agriculture.Contract.DTOs.Catalog.Plants;
 using Agriculture.Contract.DTOs.Territory.GardenPlots;
 using Agriculture.Domain.Entites.Catalog;
 using Agriculture.Domain.Entites.Territory;
@@ -71,6 +71,34 @@ namespace Agriculture.Persistence.Services.Territory
             var plantedPlot = await _gardenPlotRepository.FindAsync(specification, cancellationToken);
 
             var response = _mapper.Map<GardenPlotResponse>(plantedPlot);
+            return Result<GardenPlotResponse>
+                .Succeed(response, Success<Plant>.Planted);
+        }
+
+        public async Task<Result<GardenPlotResponse>> RemovePlantAsync(
+            RemovePlantSpecification specification,
+            CancellationToken cancellationToken)
+        {
+            var plot = await _gardenPlotRepository.FindAsync(specification, cancellationToken);
+            if (plot is null)
+            {
+                return Result<GardenPlotResponse>
+                    .Fail(Error<GardenPlot>.NotFound, HttpStatusCode.InternalServerError);
+            }
+
+            if (plot.Plant is null)
+            {
+                return Result<GardenPlotResponse>
+                    .Fail(Error<Garden>.Empty, HttpStatusCode.Conflict);
+            }
+
+            _plantRepository.Remove(plot.Plant);
+
+            plot.SetEmpty();
+
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            var response = _mapper.Map<GardenPlotResponse>(plot);
             return Result<GardenPlotResponse>
                 .Succeed(response, Success<Plant>.Planted);
         }

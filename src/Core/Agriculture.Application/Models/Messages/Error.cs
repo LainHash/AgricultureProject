@@ -15,5 +15,7 @@
         public static string OutOfStock = $"{typeof(TEntity).Name} out of stock.";
 
         public static string Occupied = $"{typeof(TEntity).Name} occupied.";
+
+        public static string Empty = $"{typeof(TEntity).Name} empty.";
     }
 }

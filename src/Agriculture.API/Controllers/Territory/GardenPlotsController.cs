@@ -1,4 +1,5 @@
 ﻿using Agriculture.Application.Features.Territory.GardenPlots.Commands.Planting;
+using Agriculture.Application.Features.Territory.GardenPlots.Commands.RemovePlant;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,6 +23,16 @@ namespace Agriculture.API.Controllers.Territory
             CancellationToken cancellationToken)
         {
             var command = new PlantingCommand(plotId, specicesId);
+            var result = await _mediator.Send(command, cancellationToken);
+            return StatusCode(result.StatusCode, result);
+        }
+
+        [HttpPatch("{id}/remove-plant")]
+        public async Task<IActionResult> RemovePlant(
+            [FromRoute] Guid id,
+            CancellationToken cancellationToken)
+        {
+            var command = new RemovePlantCommand(id);
             var result = await _mediator.Send(command, cancellationToken);
             return StatusCode(result.StatusCode, result);
         }

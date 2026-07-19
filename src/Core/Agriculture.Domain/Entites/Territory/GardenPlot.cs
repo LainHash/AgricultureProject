@@ -68,5 +68,10 @@ namespace Agriculture.Domain.Entites.Territory
         {
             Status = nameof(GardenPlotStatus.Occupied);
         }
+
+        public void SetEmpty()
+        {
+            Status = nameof(GardenPlotStatus.Empty);
+        }
     }
 }
