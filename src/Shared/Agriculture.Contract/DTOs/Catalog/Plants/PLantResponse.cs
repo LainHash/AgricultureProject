@@ -3,7 +3,7 @@ using Agriculture.Contract.DTOs.Territory.GardenPlots;
 
 namespace Agriculture.Contract.DTOs.Catalog.Plants
 {
-    public class PLantResponse
+    public class PlantResponse
     {
         public Guid PublicId { get; set; }
         public DateTime PlantAt { get; set; }

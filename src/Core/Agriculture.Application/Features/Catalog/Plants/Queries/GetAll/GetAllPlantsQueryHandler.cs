@@ -6,7 +6,7 @@ using MediatR;
 namespace Agriculture.Application.Features.Catalog.Plants.Queries.GetAll
 {
     internal class GetAllPlantsQueryHandler
-        : IRequestHandler<GetAllPlantsQuery, Result<IEnumerable<PLantResponse>>>
+        : IRequestHandler<GetAllPlantsQuery, Result<IEnumerable<PlantResponse>>>
     {
         private readonly IPlantService _plantService;
 
@@ -15,7 +15,7 @@ namespace Agriculture.Application.Features.Catalog.Plants.Queries.GetAll
             _plantService = plantService;
         }
 
-        public async Task<Result<IEnumerable<PLantResponse>>> Handle(GetAllPlantsQuery request, CancellationToken cancellationToken)
+        public async Task<Result<IEnumerable<PlantResponse>>> Handle(GetAllPlantsQuery request, CancellationToken cancellationToken)
         {
             var specification = new GetAllPlantsSpecification(request);
             var response = await _plantService.GetAllAsync(specification, cancellationToken);
