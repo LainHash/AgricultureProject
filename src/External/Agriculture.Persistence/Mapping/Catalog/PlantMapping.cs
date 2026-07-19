@@ -8,7 +8,8 @@ namespace Agriculture.Persistence.Mapping.Catalog
     {
         public PlantMapping()
         {
-            CreateMap<Plant, PLantResponse>();
+            CreateMap<Plant, PlantResponse>();
+            CreateMap<PlantRequest, Plant>();
         }
     }
 }

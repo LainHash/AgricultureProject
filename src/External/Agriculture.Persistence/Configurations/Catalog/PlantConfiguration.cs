@@ -32,9 +32,6 @@ namespace Agriculture.Persistence.Configurations.Catalog
             builder.Property(x => x.ExpectedHarvestAt)
                 .IsRequired();
 
-            builder.Property(x => x.HarvestAt)
-                .IsRequired();
-
             builder.Property(x => x.Health)
                 .HasColumnType("decimal(5,2)")
                 .IsRequired();

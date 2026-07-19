@@ -1,7 +1,10 @@
-﻿using Agriculture.Application.Features.Catalog.Plants.Queries.GetAll;
+﻿using Agriculture.Application.Features.Catalog.Plants.Commands.Planting;
+using Agriculture.Application.Features.Catalog.Plants.Queries.GetAll;
 using Agriculture.Application.Features.Catalog.Plants.Queries.GetById;
+using Agriculture.Contract.DTOs.Catalog.Plants;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Agriculture.API.Controllers.Catalog
 {
@@ -32,6 +35,16 @@ namespace Agriculture.API.Controllers.Catalog
         {
             var query = new GetPlantByIdQuery(id);
             var result = await _mediator.Send(query, cancellationToken);
+            return StatusCode(result.StatusCode, result);
+        }
+
+        [HttpPost("planting")]
+        public async Task<IActionResult> Planting(
+            [FromBody] PlantRequest body,
+            CancellationToken cancellationToken)
+        {
+            var command = new PlantCommand(body);
+            var result = await _mediator.Send(command, cancellationToken);
             return StatusCode(result.StatusCode, result);
         }
     }

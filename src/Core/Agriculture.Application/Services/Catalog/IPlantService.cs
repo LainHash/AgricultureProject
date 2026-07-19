@@ -1,4 +1,5 @@
-﻿using Agriculture.Application.Features.Catalog.Plants.Queries.GetAll;
+﻿using Agriculture.Application.Features.Catalog.Plants.Commands.Planting;
+using Agriculture.Application.Features.Catalog.Plants.Queries.GetAll;
 using Agriculture.Application.Features.Catalog.Plants.Queries.GetById;
 using Agriculture.Application.Models.Results;
 using Agriculture.Contract.DTOs.Catalog.Plants;
@@ -13,6 +14,10 @@ namespace Agriculture.Application.Services.Catalog
 
         Task<Result<PlantResponse>> GetByIdAsync(
             GetPlantByIdSpecification specification,
+            CancellationToken cancellationToken);
+
+        Task<Result<PlantResponse>> PlantAsync(
+            PlantSpecification specification,
             CancellationToken cancellationToken);
     }
 }
